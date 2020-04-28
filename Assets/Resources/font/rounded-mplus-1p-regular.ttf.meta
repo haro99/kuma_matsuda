@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 18cc01d15a3aebb49a0b7316cc0bc3b9
+timeCreated: 1508228610
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Rounded M+ 1p
+  fontNames:
+  - Rounded M+ 1p
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 09706d2f77e138b439b508e0327a253a, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

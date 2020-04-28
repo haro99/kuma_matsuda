@@ -1,0 +1,427 @@
+fileFormatVersion: 2
+guid: 2feeee61a4f01514cbc4176d3c1fdff3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: kuma_parts_default_0
+  - first:
+      213: 21300002
+    second: kuma_parts_default_1
+  - first:
+      213: 21300004
+    second: kuma_parts_default_2
+  - first:
+      213: 21300006
+    second: kuma_parts_default_3
+  - first:
+      213: 21300008
+    second: kuma_parts_default_4
+  - first:
+      213: 21300010
+    second: kuma_parts_default_5
+  - first:
+      213: 21300012
+    second: kuma_parts_default_6
+  - first:
+      213: 21300014
+    second: kuma_parts_default_7
+  - first:
+      213: 21300016
+    second: kuma_parts_default_8
+  - first:
+      213: 21300018
+    second: kuma_parts_default_9
+  - first:
+      213: 21300020
+    second: kuma_parts_default_10
+  - first:
+      213: 21300022
+    second: kuma_parts_default_11
+  - first:
+      213: 21300024
+    second: kuma_parts_default_12
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: kuma_parts_default_0
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 656
+        width: 351
+        height: 315
+      alignment: 9
+      pivot: {x: 0.499685, y: 0.07694208}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 854c4f8f9afc4f54c868d02fdc300aed
+      internalID: 21300000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kuma_parts_default_1
+      rect:
+        serializedVersion: 2
+        x: 603
+        y: 890
+        width: 69
+        height: 64
+      alignment: 9
+      pivot: {x: 0.90786964, y: 0.90948296}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d758c2ce6ed9ef14f980640eb604f700
+      internalID: 21300002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kuma_parts_default_2
+      rect:
+        serializedVersion: 2
+        x: 869
+        y: 886
+        width: 66
+        height: 64
+      alignment: 9
+      pivot: {x: 0.107739076, y: 0.9112606}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccc949b6b1adc1f458314f8a78b996d8
+      internalID: 21300004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kuma_parts_default_3
+      rect:
+        serializedVersion: 2
+        x: 603
+        y: 675
+        width: 69
+        height: 83
+      alignment: 9
+      pivot: {x: 0.7251233, y: 0.82751393}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e56175386e5df4b499b3608ed89539bc
+      internalID: 21300006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kuma_parts_default_4
+      rect:
+        serializedVersion: 2
+        x: 868
+        y: 675
+        width: 66
+        height: 81
+      alignment: 9
+      pivot: {x: 0.32348356, y: 0.82494664}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e79d45aefa8ad164d833a29f749e3dc8
+      internalID: 21300008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kuma_parts_default_5
+      rect:
+        serializedVersion: 2
+        x: 617
+        y: 485
+        width: 56
+        height: 58
+      alignment: 9
+      pivot: {x: 0.51124793, y: 0.86777365}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 798f56b5bec18ac48b71ec63ff1f9d8f
+      internalID: 21300010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kuma_parts_default_6
+      rect:
+        serializedVersion: 2
+        x: 866
+        y: 484
+        width: 54
+        height: 57
+      alignment: 9
+      pivot: {x: 0.49916247, y: 0.8511074}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be49c7a3a4e43274ca5096f4f677cadc
+      internalID: 21300012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kuma_parts_default_7
+      rect:
+        serializedVersion: 2
+        x: 182
+        y: 280
+        width: 146
+        height: 174
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85e462a36729dc048a6f14bc8023d461
+      internalID: 21300014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kuma_parts_default_8
+      rect:
+        serializedVersion: 2
+        x: 613
+        y: 262
+        width: 58
+        height: 91
+      alignment: 9
+      pivot: {x: 0.4541142, y: 0.7924701}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8d2eb71b63233d49873a229f01f7c60
+      internalID: 21300016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kuma_parts_default_9
+      rect:
+        serializedVersion: 2
+        x: 870
+        y: 266
+        width: 62
+        height: 95
+      alignment: 9
+      pivot: {x: 0.43561086, y: 0.7521401}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ceb8884552760b44f91d3fe5c54aeb63
+      internalID: 21300018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kuma_parts_default_10
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 22
+        width: 192
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f57578275a898d447af2ad85594d8c6c
+      internalID: 21300020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kuma_parts_default_11
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 51
+        width: 98
+        height: 106
+      alignment: 9
+      pivot: {x: 0.6493686, y: 0.8389612}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc6af7a25e5da944ea72b94e5316c954
+      internalID: 21300022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kuma_parts_default_12
+      rect:
+        serializedVersion: 2
+        x: 834
+        y: 49
+        width: 105
+        height: 113
+      alignment: 9
+      pivot: {x: 0.66475946, y: 0.81796426}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a38923735af4e2f40bfc32940e1c7450
+      internalID: 21300024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 556f965cc9b0cdd49ac8a77b5bc5194c
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
