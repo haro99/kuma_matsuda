@@ -119,8 +119,7 @@ public class SpecialSelecter : MonoBehaviour
         else
             this.selectedID = (int)Const.Special.Dice_Plus_One;
 
-        //aaa
-        this.selectedID = (int)Const.Special.Item_x2;
+        //this.selectedID = (int)Const.Special.Item_x2;
 
 
         this.rollIndex = 0;
