@@ -403,6 +403,13 @@ public class SaveData
                     if (saveDictionary != null)
                     {
                         var sDict = JsonUtility.FromJson<Serialization<string, string>>(sr.ReadToEnd());
+
+                        if (sDict == null)
+                        {
+                            this.Save();
+                            return;
+                        }
+
                         sDict.OnAfterDeserialize();
                         saveDictionary = sDict.ToDictionary();
                     }

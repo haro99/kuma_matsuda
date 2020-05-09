@@ -355,7 +355,7 @@ public class SugorokuDirector : MonoBehaviour
 
             string targetName = "work_tile_" + charaController.posX + "_" + charaController.posY;
 
-            GameObject obj = GameObject.Find("Camera1/MapTile/" + targetName );
+            GameObject obj = GameObject.Find("CameraMap/MapTile/" + targetName );
 
 
             Sprite spriteTileImage = Resources.Load("images/sugoroku/tile/tile_special_end", typeof(Sprite)) as Sprite;
