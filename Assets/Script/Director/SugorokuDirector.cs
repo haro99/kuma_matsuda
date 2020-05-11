@@ -109,8 +109,14 @@ public class SugorokuDirector : MonoBehaviour
         this.Resource = new SugorokuResource();
 
         //this.DebugText = GameObject.Find("DebugCanvas/Panel/Text").GetComponent<Text>();
-        this.DebugText = GameObject.Find("DebugCanvas/Panel/InputField").GetComponent<InputField>();
-        
+        //this.DebugText = GameObject.Find("DebugCanvas/Panel/InputField").GetComponent<InputField>();
+
+        GameObject debugObject = GameObject.Find("DebugCanvas/Panel/InputField");
+        if (debugObject != null)
+            this.DebugText = debugObject.GetComponent<InputField>();
+        else
+            this.DebugText = null;
+
     }
 
     // Use this for initialization
@@ -1042,6 +1048,9 @@ public class SugorokuDirector : MonoBehaviour
 
     public void AddDebugText( string text )
     {
+        if (this.DebugText == null)
+            return;
+
         this.DebugText.text += text + "\n";
     }
 
