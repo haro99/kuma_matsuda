@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class TileDataIndex 
 {
-    public TileDataIndex(int x, int y)
+    public TileDataIndex(int x, int y) : this( x , y, 0 )
+    {
+        //this.SetMapIndex(x, y);
+        //this.SetGoalDirection(0, 0, 999);
+    }
+
+    public TileDataIndex(int x, int y , int data )
     {
         this.SetMapIndex(x, y);
+        this.MapData = data;
         this.SetGoalDirection(0, 0, 999);
     }
 

@@ -881,7 +881,6 @@ public class MapController : MonoBehaviour
         foreach ( TileDataIndex check in this.itemCandidateTilesLv3 )
         {
             //if (UnityEngine.Random.Range(0, this.clearRouteTiles.Count) > clearRouteItemCount)
-            //aaa
             if (UnityEngine.Random.Range(0, this.itemCandidateTilesClearRoute.Count) > this.clearRoutePutItemCount)
                 continue;
 
@@ -911,6 +910,38 @@ public class MapController : MonoBehaviour
                 continue;
 
             this.setMapData(check.MapIndexX, check.MapIndexY, itemID);
+        }
+
+
+        // タイルオブジェクトを配置
+        List<TileDataIndex> freeTiles = new List<TileDataIndex>();
+
+        for (int i = 0; i < MAX_X; ++i)
+        {
+            for (int j = 0; j < MAX_Y; ++j)
+            {
+                int checkID = this.getMapData(i, j);
+
+                if (checkID == 8)
+                    freeTiles.Add(new TileDataIndex(i, j, checkID));
+            }
+        }
+
+        this.TileDataIndexRandomizer( freeTiles );
+
+        int freeTileIndex = 0;
+
+        foreach( MapObjectParameter param in this.stageData.RandomSpotsObjects )
+        {
+            for( int count=0; count<param.Count; count++ )
+            {
+                if (freeTileIndex >= freeTiles.Count)
+                    break;
+
+                this.setMapData(freeTiles[freeTileIndex].MapIndexX, freeTiles[freeTileIndex].MapIndexY, param.Code);
+
+                freeTileIndex++;
+            }
         }
 
         return true;

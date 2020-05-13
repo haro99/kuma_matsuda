@@ -45,6 +45,8 @@ public class StageDataTable : ScriptableObject
     public int RandomMapSpecailCount;
     public int RandomMapRandomItemCount;
 
+    public List<MapObjectParameter> RandomSpotsObjects;
+
     public StageDataTable()
     {
         //this.DiceCount = 10;
@@ -56,6 +58,8 @@ public class StageDataTable : ScriptableObject
         this.RandomMapRandomItemCount = 1;
         this.RandomMapEnemyCount = 1;
         this.RandomMapSpecailCount = 3;
+
+        this.RandomSpotsObjects = new List<MapObjectParameter>();
     }
 
 
