@@ -398,7 +398,10 @@ public class SaveData
         {
             if (File.Exists(path + fileName))
             {
-                using (StreamReader sr = new StreamReader(path + fileName, Encoding.GetEncoding("utf-8")))
+                var fs = new FileStream(path + fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                var sr = new StreamReader(fs, Encoding.UTF8);
+
+                //using (StreamReader sr = new StreamReader(path + fileName, Encoding.GetEncoding("utf-8")))
                 {
                     if (saveDictionary != null)
                     {
@@ -406,7 +409,7 @@ public class SaveData
 
                         if (sDict == null)
                         {
-                            this.Save();
+                            //this.Save();
                             return;
                         }
 
@@ -414,6 +417,8 @@ public class SaveData
                         saveDictionary = sDict.ToDictionary();
                     }
                 }
+                sr.Close();
+                fs.Close();
             }
             else { saveDictionary = new Dictionary<string, string>(); }
         }
