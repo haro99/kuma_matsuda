@@ -46,6 +46,7 @@ public class StageDataTable : ScriptableObject
     public int RandomMapRandomItemCount;
 
     public List<MapObjectParameter> RandomSpotsObjects;
+    public List<MapObjectClusterParameter> RandomClusterObjects;
 
     public StageDataTable()
     {

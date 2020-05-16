@@ -44,6 +44,14 @@ MonoBehaviour:
   RandomMapEnemyCount: 1
   RandomMapSpecailCount: 3
   RandomMapRandomItemCount: 1
-  RandomSpotsObjects:
-  - Code: 110
-    Count: 5
+  RandomSpotsObjects: []
+  RandomClusterObjects:
+  - Radius: 2
+    Count: 3
+    Items:
+    - Code: 110
+      Ratio: 5
+    - Code: 113
+      Ratio: 1
+    - Code: 0
+      Ratio: 2

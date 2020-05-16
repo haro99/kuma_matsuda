@@ -944,8 +944,70 @@ public class MapController : MonoBehaviour
             }
         }
 
+        foreach (MapObjectClusterParameter cluster in this.stageData.RandomClusterObjects)
+        {
+
+            for( int count=0; count<cluster.Count; count++ )
+            {
+
+                if (freeTileIndex >= freeTiles.Count)
+                    break;
+
+                TileDataIndex centerTile = freeTiles[freeTileIndex ++ ];
+
+
+                for( int indexX = Math.Max(0, centerTile.MapIndexX-cluster.Radius ); indexX <= Math.Min(centerTile.MapIndexX + cluster.Radius,MAX_X-1); indexX++ )
+                { 
+                    for (int indexY = Math.Max(0, centerTile.MapIndexY - cluster.Radius); indexY <= Math.Min(centerTile.MapIndexY + cluster.Radius, MAX_Y-1); indexY++)
+                    {
+                        this.SetRandomMapClusterItem(cluster, indexX , indexY );
+                    }
+                }
+            }
+        }
+
         return true;
     }
+
+    private int CalcScattering( int scattering )
+    {
+        return UnityEngine.Random.Range(0, scattering );
+    }
+
+    private void SetRandomMapClusterItem( MapObjectClusterParameter cluster , int indexX , int indexY )
+    {
+
+        if (indexX < 0 || indexX>=MAX_X || indexY < 0 || indexY >= MAX_Y)
+            return;
+
+        if (this.getMapData(indexX, indexY) != 8)
+            return;
+
+        int ratioSeedSum = 0;
+
+        foreach (MapObjectClusterItemParameter item in cluster.Items)
+        {
+            ratioSeedSum += item.Ratio;
+        }
+
+        int seed = UnityEngine.Random.Range(0, ratioSeedSum + 1);
+        int selectedCode = 0;
+        int checkRatio = 0;
+
+        foreach (MapObjectClusterItemParameter item in cluster.Items)
+        {
+            checkRatio += item.Ratio;
+            if (seed <= checkRatio)
+            {
+                selectedCode = item.Code;
+                break;
+            }
+        }
+
+        this.setMapData(indexX, indexY , selectedCode);
+
+    }
+
 
     private void CreateRandomRoute(TileDataIndex dataIndex, Const.Direction initDir)
     {
@@ -961,8 +1023,6 @@ public class MapController : MonoBehaviour
             dir = Const.Direction.left;
         else
             dir = Const.Direction.right;
-
-
 
         for ( int rotateID = 1; rotateID < 8 && this.randomTileLastCount>0; rotateID++)
         {
