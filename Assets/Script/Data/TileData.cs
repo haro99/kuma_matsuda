@@ -36,4 +36,6 @@ public class TileData : MonoBehaviour
     public int GoalDirectionX;
     public int GoalDirectionY;
 
+    public int DebugNumber;
+
 }
