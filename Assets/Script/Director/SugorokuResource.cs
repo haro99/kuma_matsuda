@@ -8,6 +8,15 @@ public class SugorokuResource
     public GameObject PrefabIconItemx2 { get; private set; }
     public GameObject PrefabItemCountPrinter { get; private set; }
     public GameObject PrefabTileEffect { get; private set; }
+
+    public GameObject PrefabFlyingItem { get; private set; }
+
+    public GameObject PrefabItemShadow { get; private set; }
+
+    public GameObject PrefabItemWorkBase { get; private set; }
+
+    public GameObject PrefabItemGetStar { get; private set; }
+
     public Sprite[] SpritesSpecialFrame { get; private set; }
     public Sprite[] SpritesSpecialMessage { get; private set; }
     public Sprite[] SpritesNumberParts { get; private set; }
@@ -29,7 +38,9 @@ public class SugorokuResource
 
     public AudioClip AudioBGM { get; private set; }
 
+    public AudioClip AudioItemGet { get; private set; }
 
+    public List<MapObjectPrefab> mapObjectPrefabs;
     public SugorokuResource()
     {
 
@@ -55,12 +66,38 @@ public class SugorokuResource
 
         this.AudioBGM = Resources.Load("sound/bgm_stage", typeof(AudioClip)) as AudioClip;
 
+        this.AudioItemGet = Resources.Load("sound/item_get", typeof(AudioClip)) as AudioClip;
+
 
         this.PrefabIconItemx2 = Resources.Load("prefabs/special/ItemIcon_x2", typeof(GameObject)) as GameObject;
         this.PrefabItemCountPrinter = Resources.Load("prefabs/item/ItemCount", typeof(GameObject)) as GameObject;
         this.PrefabTileEffect = Resources.Load("prefabs/tile/TileEffect", typeof(GameObject)) as GameObject;
+        this.PrefabFlyingItem = Resources.Load("prefabs/item/FlyingItem", typeof(GameObject)) as GameObject;
+        this.PrefabItemShadow = Resources.Load("prefabs/item/Shadow", typeof(GameObject)) as GameObject;
+        this.PrefabItemWorkBase = Resources.Load("prefabs/item/ItemWorkBase", typeof(GameObject)) as GameObject;
+        this.PrefabItemGetStar = Resources.Load("prefabs/item/ItemGetStar", typeof(GameObject)) as GameObject;
+
+        this.mapObjectPrefabs = new List<MapObjectPrefab>();
+    }
 
 
+    public GameObject GetMapObjectPrefab( int id )
+    {
+        foreach( MapObjectPrefab check in this.mapObjectPrefabs )
+        {
+            if (check.ObjectID == id)
+                return check.Prefab;
+        }
+
+        GameObject loadedPrefab = (GameObject)Resources.Load("prefabs/tile/" + id.ToString() );
+
+        if( loadedPrefab != null)
+        {
+            MapObjectPrefab data = new MapObjectPrefab( id , loadedPrefab );
+            this.mapObjectPrefabs.Add(data);
+        }
+
+        return loadedPrefab;
 
     }
 }
