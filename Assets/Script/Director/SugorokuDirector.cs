@@ -64,6 +64,7 @@ public class SugorokuDirector : MonoBehaviour
     private AudioSource audioSourceSaiStop;
     private AudioSource audioSourceCardGet;
     private AudioSource audioSourceSugorokuMove;
+    private AudioSource audioSourceItemGet;
 
     private AudioSource audioSourceStageClear;
     private AudioSource audioSourceGameOver;
@@ -81,6 +82,11 @@ public class SugorokuDirector : MonoBehaviour
     private List<GameObject> usedSpecialTiles;
 
     private List<EnemyGetFoodData> enemyGetFoods;
+
+    public Camera Camera
+    {
+        get; private set;
+    }
 
     private bool IsDiceFreeMode
     {
@@ -101,6 +107,8 @@ public class SugorokuDirector : MonoBehaviour
 
     private void Awake()
     {
+        this.Camera = this.mainCamera.GetComponent<Camera>();
+
         SugorokuDirector.director = this;
         this.specialEffectTime = new LimitTimeCounter();
         this.specialDiceFreeTime = new LimitTimeCounter();
@@ -142,6 +150,8 @@ public class SugorokuDirector : MonoBehaviour
 
     private void Init()
     {
+        this.Camera = this.mainCamera.GetComponent<Camera>();
+
         this.usedSpecialTiles = new List<GameObject>();
 
         this.enemyGetFoods = new List<EnemyGetFoodData>();
@@ -160,6 +170,9 @@ public class SugorokuDirector : MonoBehaviour
 
         this.audioSourceSugorokuMove = this.gameObject.AddComponent<AudioSource>();
         this.audioSourceSugorokuMove.clip = this.Resource.AudioSugorokuMove;
+
+        this.audioSourceItemGet = this.gameObject.AddComponent<AudioSource>();
+        this.audioSourceItemGet.clip = this.Resource.AudioItemGet;
 
         this.audioSourceStageClear = this.gameObject.AddComponent<AudioSource>();
         this.audioSourceStageClear.clip = this.Resource.AudioStageClear;
@@ -772,7 +785,7 @@ public class SugorokuDirector : MonoBehaviour
         {
 
             string targetName = "work_tile_" + charaController.posX + "_" + charaController.posY;
-            GameObject target = GameObject.Find("Camera1/MapTile/" + targetName);
+            GameObject target = GameObject.Find("CameraMap/MapTile/" + targetName);
 
             foreach( GameObject check in this.usedSpecialTiles )
             {
@@ -877,11 +890,18 @@ public class SugorokuDirector : MonoBehaviour
     void StageCreate()
     {
         //Debug.Log ("StageCreate: start.");
-        RemainingDiceController remainingDiceController = remainingDice.GetComponent<RemainingDiceController>();
-        remainingDiceController.initDiceCount(10);
+        //RemainingDiceController remainingDiceController = remainingDice.GetComponent<RemainingDiceController>();
+        //remainingDiceController.initDiceCount(10);
 
         startMessage.SetActive(true);
         dice.SetActive(false);
+    }
+
+
+    public void SetDiceCount( int count )
+    {
+        RemainingDiceController remainingDiceController = remainingDice.GetComponent<RemainingDiceController>();
+        remainingDiceController.initDiceCount(count);
     }
 
 
@@ -995,6 +1015,11 @@ public class SugorokuDirector : MonoBehaviour
     public void SoundPlayCardSugorokuMove()
     {
         this.soundData.PlaySound(this.audioSourceSugorokuMove);
+    }
+
+    public void SoundPlayItemGet()
+    {
+        this.soundData.PlaySound(this.audioSourceItemGet);
     }
 
     public void SoundPlayStageClear()

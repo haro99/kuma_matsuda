@@ -71,7 +71,7 @@ public class RandomItemController : MonoBehaviour {
             itemObject.name = "work_item_" + itemName;
             string itemFilepath = "images/sugoroku/item/item_" + itemName;
             Sprite spriteItemImage = Resources.Load(itemFilepath, typeof(Sprite)) as Sprite;
-            itemObject.GetComponent<SpriteRenderer>().sprite = spriteItemImage;
+            itemObject.transform.Find("Image").gameObject.GetComponent<SpriteRenderer>().sprite = spriteItemImage;
 
             mTime = 0;
         }

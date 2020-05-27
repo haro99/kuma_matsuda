@@ -28,9 +28,9 @@ public class PlayerController : CharaController
 
         stageData = sceneObject.GetComponent<SugorokuScene>().GetStageData();
         int[] pos = stageData.GetStartPos();
-        //Debug.Log("start = [" + pos[0] + "," + pos[1] + "]");
+        Debug.Log("start = [" + pos[0] + "," + pos[1] + "]");
 
-        this.InitalizePosition(pos[0], pos[1]);
+        //this.InitalizePosition(pos[0], pos[1]);
         /*
         this.posX = pos[0];
         this.posY = pos[1];

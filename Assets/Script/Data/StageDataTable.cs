@@ -37,6 +37,8 @@ public class StageDataTable : ScriptableObject
 
     [SerializeField]
 
+    public int DiceCount;
+
     public int RandomMapClearRouteTileCountMin;
     public int RandomMapClearRouteDistanceMax;
     public int RandomMapItemCountMaxInTile;
@@ -45,11 +47,25 @@ public class StageDataTable : ScriptableObject
     public int RandomMapSpecailCount;
     public int RandomMapRandomItemCount;
 
+
+    // 分岐密度 ( 0～8 ) この数値が多いほど ランダムマップ作成時の分岐数が多くなります。
+    // 具体的には ランダムマップは マップを広げるために マップの隅８か所を 徐々に広げていきますが、
+    // この広げる個所を 指定することができます。
+    public int RandomMapBranchDensity = 2;
+
+
+    public int RandomMapStraightDistanceMin = 3;
+    public int RandomMapStraightDistanceMax = 6;
+
     public List<MapObjectParameter> RandomSpotsObjects;
+    public List<MapObjectClusterParameter> RandomClusterObjects;
+
 
     public StageDataTable()
     {
-        //this.DiceCount = 10;
+        this.DiceCount = 10;
+
+
         this.BackgroundPrefab = null;
         this.RandomMapClearRouteTileCountMin = 20;
         this.RandomMapClearRouteDistanceMax = 50;

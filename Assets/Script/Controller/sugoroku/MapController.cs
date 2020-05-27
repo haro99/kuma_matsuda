@@ -20,12 +20,18 @@ public class MapController : MonoBehaviour
 
     private static int HOME_X = 8;
     private static int HOME_Y = 9;
+    //private int HOME_X = 8;
+    //private int HOME_Y = 9;
 
-    private int MAX_X;
-    private int MAX_Y;
+    public int TileXMax { get; private set; }
+    public int TileYMax { get; private set; }
+
+    public static int TileID_RandomTile = 8;
+    public static int TileID_Goal = -1;
 
     private List<FieldDataX> mapData;
     private TileDataIndex[,] tileDataItems;
+    //private List<RandomMapTileAnchorRequest> anchorRequestList;
 
     private SugorokuDirector director;
 
@@ -35,7 +41,13 @@ public class MapController : MonoBehaviour
     {
         this.init();
 
+        StopwatchTimer timer = new StopwatchTimer();
+
+        timer.Start();
         createMap();
+        timer.Stop();
+
+        this.director.AddDebugText("マップ作製時間(ミリ秒)  " + timer.Time);
 
     }
 
@@ -46,6 +58,7 @@ public class MapController : MonoBehaviour
 
         this.stageData = sceneObject.GetComponent<SugorokuScene>().GetStageData();
 
+        this.director.SetDiceCount(this.stageData.DiceCount);
 
         if( this.stageData.BackgroundPrefab != null )
         {
@@ -59,22 +72,26 @@ public class MapController : MonoBehaviour
         //this.clearRouteItemCount = this.stageData.ClearItemCount[0] + this.stageData.ClearItemCount[1] + this.stageData.ClearItemCount[2] + this.stageData.ClearItemCount[3] + 3;
 
         // 最大サイズを設定
-        MAX_X = stageData.FieldDataYList[0].fieldDataXList.Count;
-        MAX_Y = stageData.FieldDataYList.Count;
+        TileXMax = stageData.FieldDataYList[0].fieldDataXList.Count;
+        TileYMax = stageData.FieldDataYList.Count;
         //Debug.Log ("MAX_X:" + MAX_X + " MAX_Y:" + MAX_Y);
 
         // ホームを設定
         //Debug.Log ("HOME_X:" + HOME_X + " HOME_Y:" + HOME_Y);
 
-        this.director.AddDebugText("マップサイズ " + MAX_X + " x " + MAX_Y);
+        this.director.AddDebugText("マップサイズ " + TileXMax + " x " + TileYMax);
 
-        this.tileDataItems = new TileDataIndex[MAX_X, MAX_Y];
+        HOME_X = TileXMax / 2;
+        HOME_Y = TileYMax / 2;
 
-        for( int initX=0; initX<MAX_X; initX ++)
-            for (int initY = 0; initY < MAX_Y; initY++)
+        this.tileDataItems = new TileDataIndex[TileXMax, TileYMax];
+
+        for( int initX=0; initX<TileXMax; initX ++)
+            for (int initY = 0; initY < TileYMax; initY++)
             {
                 tileDataItems[initX, initY] = null;
             }
+
 
 
         int tryCount = 0;
@@ -95,6 +112,17 @@ public class MapController : MonoBehaviour
                 }
                 mapData.Add(new FieldDataX(xLine));
             }
+
+            this.tileGoal = null;
+            this.SearchGoal();
+
+            if( this.tileGoal != null )
+            {
+                PlayerController player = GameObject.Find("Player").GetComponent<PlayerController>();
+                player.InitalizePosition(this.tileGoal.MapIndexX, this.tileGoal.MapIndexY);
+            }
+
+
 
             if (this.CreateRandomMap())
             {
@@ -125,9 +153,9 @@ public class MapController : MonoBehaviour
 
 
         // MapTile
-        for (int i = 0; i < MAX_X; ++i)
+        for (int i = 0; i < TileXMax; ++i)
         {
-            for (int j = 0; j < MAX_Y; ++j)
+            for (int j = 0; j < TileYMax; ++j)
             {
                 int x = i;
                 int y = j;
@@ -179,82 +207,6 @@ public class MapController : MonoBehaviour
                     //tileData.SetMapIndex(x, y , data);
                     tileData.SetMapIndex(x,y,this.getMapData(x,y));
                 }
-
-                else if (data == 100)
-                {
-                    // 家
-
-                    // プレハブを取得
-                    GameObject prefab = (GameObject)Resources.Load("prefabs/tile/house");
-                    // プレハブからインスタンスを生成
-                    GameObject Object = Instantiate(prefab, new Vector3(calPosX(x, y), (calPosY(x, y) - 0.25f), 0), Quaternion.identity);
-                    Object.transform.parent = mapTileObject.transform;
-
-                    SpriteRenderer render = Object.GetComponent<SpriteRenderer>();
-                    render.sortingLayerName = "MapObject";
-                    render.sortingOrder = this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.Building);
-                }
-
-                else if (data == 110)
-                {
-                    // 木
-
-                    // プレハブを取得
-                    GameObject prefab = (GameObject)Resources.Load("prefabs/tile/tree");
-                    // プレハブからインスタンスを生成
-                    GameObject Object = Instantiate(prefab, new Vector3(calPosX(x, y), (calPosY(x, y) - 0.25f), 0), Quaternion.identity);
-                    Object.transform.parent = mapTileObject.transform;
-
-                    SpriteRenderer render = Object.GetComponent<SpriteRenderer>();
-                    render.sortingLayerName = "MapObject";
-                    render.sortingOrder = this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.Building);
-                }
-                else if (data == 111)
-                {
-                    // 木柵
-
-                    // プレハブを取得
-                    GameObject prefab = (GameObject)Resources.Load("prefabs/tile/wood_bar");
-                    // プレハブからインスタンスを生成
-                    GameObject Object = Instantiate(prefab, new Vector3(calPosX(x, y), (calPosY(x, y) - 0.25f), 0), Quaternion.identity);
-                    Object.transform.parent = mapTileObject.transform;
-
-                    SpriteRenderer render = Object.GetComponent<SpriteRenderer>();
-                    render.sortingLayerName = "MapObject";
-                    render.sortingOrder = this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.Building);
-                }
-
-                else if (data == 112)
-                {
-                    // かかし
-
-                    // プレハブを取得
-                    GameObject prefab = (GameObject)Resources.Load("prefabs/tile/kakasi");
-                    // プレハブからインスタンスを生成
-                    GameObject Object = Instantiate(prefab, new Vector3(calPosX(x, y), (calPosY(x, y) - 0.25f), 0), Quaternion.identity);
-                    Object.transform.parent = mapTileObject.transform;
-
-                    SpriteRenderer render = Object.GetComponent<SpriteRenderer>();
-                    render.sortingLayerName = "MapObject";
-                    render.sortingOrder = this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.Building);
-                }
-                else if (data == 113)
-                {
-                    // プレハブを取得
-                    GameObject prefab = (GameObject)Resources.Load("prefabs/tile/leaf");
-                    // プレハブからインスタンスを生成
-                    GameObject Object = Instantiate(prefab, new Vector3(calPosX(x, y), (calPosY(x, y) - 0.25f), 0), Quaternion.identity);
-                    Object.transform.parent = mapTileObject.transform;
-
-                    /*
-                    SpriteRenderer render = Object.GetComponent<SpriteRenderer>();
-                    render.sortingLayerName = "MapObject";
-                    render.sortingOrder = this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.Building);
-                    */
-
-                    this.SetChildOrder(Object, this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.Building));
-                }
-
 
                 else if (data == 5)
                 {
@@ -313,10 +265,97 @@ public class MapController : MonoBehaviour
 
                     Object.transform.parent = mapTileObject.transform;
                 }
-                else if (data == 8)
+                else if (data == MapController.TileID_RandomTile )
                 {
 
                 }
+
+                /*
+                else if (data == 100)
+                {
+                    // 家
+
+                    // プレハブを取得
+                    GameObject prefab = (GameObject)Resources.Load("prefabs/tile/house");
+                    // プレハブからインスタンスを生成
+                    GameObject Object = Instantiate(prefab, new Vector3(calPosX(x, y), (calPosY(x, y) - 0.25f), 0), Quaternion.identity);
+                    Object.transform.parent = mapTileObject.transform;
+
+                    SpriteRenderer render = Object.GetComponent<SpriteRenderer>();
+                    render.sortingLayerName = "MapObject";
+                    render.sortingOrder = this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.Building);
+                }
+                else if (data == 110)
+                {
+                    // 木
+
+                    // プレハブを取得
+                    GameObject prefab = (GameObject)Resources.Load("prefabs/tile/tree");
+                    // プレハブからインスタンスを生成
+                    GameObject Object = Instantiate(prefab, new Vector3(calPosX(x, y), (calPosY(x, y) - 0.25f), 0), Quaternion.identity);
+                    Object.transform.parent = mapTileObject.transform;
+
+                    SpriteRenderer render = Object.GetComponent<SpriteRenderer>();
+                    render.sortingLayerName = "MapObject";
+                    render.sortingOrder = this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.Building);
+                }
+                else if (data == 111)
+                {
+                    // 木柵
+
+                    // プレハブを取得
+                    GameObject prefab = (GameObject)Resources.Load("prefabs/tile/wood_bar");
+                    // プレハブからインスタンスを生成
+                    GameObject Object = Instantiate(prefab, new Vector3(calPosX(x, y), (calPosY(x, y) - 0.25f), 0), Quaternion.identity);
+                    Object.transform.parent = mapTileObject.transform;
+
+                    SpriteRenderer render = Object.GetComponent<SpriteRenderer>();
+                    render.sortingLayerName = "MapObject";
+                    render.sortingOrder = this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.Building);
+                }
+
+                else if (data == 112)
+                {
+                    // かかし
+
+                    // プレハブを取得
+                    GameObject prefab = (GameObject)Resources.Load("prefabs/tile/kakasi");
+                    // プレハブからインスタンスを生成
+                    GameObject Object = Instantiate(prefab, new Vector3(calPosX(x, y), (calPosY(x, y) - 0.25f), 0), Quaternion.identity);
+                    Object.transform.parent = mapTileObject.transform;
+
+                    SpriteRenderer render = Object.GetComponent<SpriteRenderer>();
+                    render.sortingLayerName = "MapObject";
+                    render.sortingOrder = this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.Building);
+                }
+                else if (data == 113)
+                {
+                    // プレハブを取得
+                    GameObject prefab = (GameObject)Resources.Load("prefabs/tile/leaf");
+                    // プレハブからインスタンスを生成
+                    GameObject Object = Instantiate(prefab, new Vector3(calPosX(x, y), (calPosY(x, y) - 0.25f), 0), Quaternion.identity);
+                    Object.transform.parent = mapTileObject.transform;
+
+                    this.SetChildOrder(Object, this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.Building));
+                }
+                */
+                else if ( data >= 100 )
+                {
+                    GameObject prefab = this.director.Resource.GetMapObjectPrefab(data); ;
+                    // プレハブからインスタンスを生成
+                    GameObject Object = Instantiate(prefab, new Vector3(calPosX(x, y), (calPosY(x, y) - 0.25f), 0), Quaternion.identity);
+                    Object.transform.parent = mapTileObject.transform;
+
+                    SpriteRenderer render = Object.GetComponent<SpriteRenderer>();
+                    render.sortingLayerName = "MapObject";
+                    render.sortingOrder = this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.Building);
+
+                    this.SetChildOrder(Object, this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.Building));
+                }
+
+
+
+
                 else
                 {
                     Debug.Log("unknown id " + data + " " + x + " , " + y  );
@@ -356,16 +395,59 @@ public class MapController : MonoBehaviour
         iconItemObject.GetComponent<Image>().sprite = spriteIconItemImage;
 
         // 所持数
-        GameObject itemCountObject = iconObject.transform.Find("ItemCount").gameObject;
-        Sprite spriteItemCountImage = Resources.Load("images/text/number/yellow/0", typeof(Sprite)) as Sprite;
-        itemCountObject.GetComponent<Image>().sprite = spriteItemCountImage;
+        // GameObject itemCountObject = iconObject.transform.Find("ItemCount").gameObject;
+        // Sprite spriteItemCountImage = Resources.Load("images/text/number/yellow/0", typeof(Sprite)) as Sprite;
+        // itemCountObject.GetComponent<Image>().sprite = spriteItemCountImage;
+        //this.SetItemCount( iconObject.transform.Find("Counter/Have").gameObject , "images/text/number/yellow/" , 0, false);
+        // this.SetItemCount(iconObject.transform.Find("Counter/Have").gameObject, "images/text/number/white/", 0, false);
 
         // 必要数
-        GameObject itemNeedCountObject = iconObject.transform.Find("NeedCount").gameObject;
-        //Sprite spriteItemNeedCountImage = Resources.Load("images/text/number/white/" + clearItemCount[((int)item)], typeof(Sprite)) as Sprite;
-        Sprite spriteItemNeedCountImage = Resources.Load("images/text/number/white/" + stageData.ClearItemCount[num], typeof(Sprite)) as Sprite;
-        itemNeedCountObject.GetComponent<Image>().sprite = spriteItemNeedCountImage;
+        // GameObject itemNeedCountObject = iconObject.transform.Find("NeedCount").gameObject;
+        // Sprite spriteItemNeedCountImage = Resources.Load("images/text/number/white/" + stageData.ClearItemCount[num], typeof(Sprite)) as Sprite;
+        //itemNeedCountObject.GetComponent<Image>().sprite = spriteItemNeedCountImage;
+        // this.SetItemCount(iconObject.transform.Find("Counter/Need").gameObject, "images/text/number/white/", stageData.ClearItemCount[num] , true );
+
+        ItemCountUiPrinter printer = iconObject.GetComponent<ItemCountUiPrinter>();
+        printer.Reset(stageData.ClearItemCount[num]);
+
     }
+
+    /*
+    private void SetItemCount( GameObject counter , string numberResoucePath , int count , bool isAlignLeft )
+    {
+        if (count > 99)
+            count = 99;
+
+        Image digit2 = counter.transform.Find("Digit2").gameObject.GetComponent<Image>();
+        Image digit1 = counter.transform.Find("Digit1").gameObject.GetComponent<Image>();
+
+        if (count < 10 )
+        {
+            if( isAlignLeft )
+            {
+                digit2.color = new Color(1f, 1f, 1f, 1f);
+                digit1.color = new Color(1f, 1f, 1f, 0f);
+                digit2.sprite = Resources.Load(numberResoucePath + count % 10, typeof(Sprite)) as Sprite;
+            }
+            else
+            {
+                digit2.color = new Color(1f, 1f, 1f, 0f);
+                digit1.color = new Color(1f, 1f, 1f, 1f);
+                digit2.sprite = Resources.Load(numberResoucePath + count / 10, typeof(Sprite)) as Sprite;
+                digit1.sprite = Resources.Load(numberResoucePath + count % 10, typeof(Sprite)) as Sprite;
+            }
+        }
+        else
+        {
+            digit2.color = new Color(1f, 1f, 1f, 1f);
+            digit1.color = new Color(1f, 1f, 1f, 1f);
+            digit2.sprite = Resources.Load(numberResoucePath + count / 10, typeof(Sprite)) as Sprite;
+            digit1.sprite = Resources.Load(numberResoucePath + count % 10, typeof(Sprite)) as Sprite;
+        
+        }
+    }
+    */
+
 
     private GameObject createTile(int x, int y, int data)
     {
@@ -391,12 +473,15 @@ public class MapController : MonoBehaviour
         TileData tileData = tileColorObject.AddComponent<TileData>();
         tileData.SetMapIndex(x, y , this.getMapData(x,y) );
 
+        if( this.anchorDataArray!=null)
+            tileData.DebugNumber = this.anchorDataArray[x, y].RouteCount;
+
         TileDataIndex index = this.GetTileDataIndex(x, y);
         if (index != null)
             tileData.SetGoalDirection(index);
 
 
-        if (this.isDebug && this.clearRouteTiles != null )
+        if (this.isClearRouteDebug && this.clearRouteTiles != null )
         {
             foreach( TileDataIndex tileDataIndex in this.clearRouteTiles )
             { 
@@ -430,7 +515,34 @@ public class MapController : MonoBehaviour
             string itemName = item.ToString();
 
             string itemFilepath = "images/sugoroku/item/item_" + itemName;
-            //Debug.Log ("Item:" + itemFilepath);
+
+
+            ///---------------
+            GameObject itemObject = Instantiate(this.director.Resource.PrefabItemWorkBase);
+            itemObject.name = "work_item_" + itemName;
+            itemObject.transform.parent = tileColorObject.transform;
+            itemObject.transform.localPosition = new Vector3(0, 0, 0);
+
+            GameObject imageObject = itemObject.transform.Find("Image").gameObject;
+
+            Sprite spriteItemImage = Resources.Load(itemFilepath, typeof(Sprite)) as Sprite;
+            SpriteRenderer render = imageObject.GetComponent<SpriteRenderer>();
+            render.sprite = spriteItemImage;
+            render.sortingOrder = this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.Item);
+            itemObject.GetComponent<ItemController>().Initalize(x, y, data % 10);
+
+            GameObject shadowObject = itemObject.transform.Find("Shadow").gameObject;
+            SpriteRenderer shadowRender = shadowObject.GetComponent<SpriteRenderer>();
+            shadowRender.sortingOrder = this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.Shadow);
+
+            GameObject itemCountPrintObject = itemObject.transform.Find("Image/ItemCount").gameObject;
+            ItemCountPrinter itemCountPrinter = itemCountPrintObject.GetComponent<ItemCountPrinter>();
+            itemCountPrinter.Initalize(data % 10);
+            itemCountPrinter.SetSortingOrder(this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.ItemInformation));
+
+
+            ///---------------
+            /*
             GameObject itemObject = new GameObject("work_item_" + itemName);
             itemObject.transform.parent = tileColorObject.transform;
             Sprite spriteItemImage = Resources.Load(itemFilepath, typeof(Sprite)) as Sprite;
@@ -439,11 +551,19 @@ public class MapController : MonoBehaviour
             itemObject.AddComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
 
             render.sprite = spriteItemImage;
-            //itemObject.GetComponent<SpriteRenderer>().sortingLayerName = "MapItem";
             render.sortingLayerName = "MapObject";
-            render.sortingOrder = this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.TilePattern);
+            render.sortingOrder = this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.Item);
             ItemController itemController = itemObject.AddComponent<ItemController>();
-            itemController.ItemCount = data % 10;
+            itemController.Initalize(x, y, data % 10);
+
+            GameObject shadowObject = Instantiate(this.director.Resource.PrefabItemShadow );
+            shadowObject.transform.parent = itemObject.transform;
+            shadowObject.transform.localPosition = new Vector3(0f, -0.3f, 0f);
+            shadowObject.transform.localScale = new Vector3(0.5f, 0.5f, 0f);
+            SpriteRenderer shadowRender = shadowObject.GetComponent<SpriteRenderer>();
+            shadowRender.sortingOrder = this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.Shadow);
+            shadowRender.sortingLayerName = "MapObject";
+
 
 
             GameObject itemCountPrintObject = Instantiate(SugorokuDirector.GetInstance().Resource.PrefabItemCountPrinter  );
@@ -452,7 +572,7 @@ public class MapController : MonoBehaviour
             ItemCountPrinter itemCountPrinter = itemCountPrintObject.GetComponent<ItemCountPrinter>();
             itemCountPrinter.Initalize(data % 10);
             itemCountPrinter.SetSortingOrder(this.GetOrderInLayerForTile(x, y, MapObjectOrderIndex.ItemInformation ) );
-
+            */
             SugorokuDirector.GetInstance().AddItem(tileColorObject);
 
             
@@ -520,6 +640,19 @@ public class MapController : MonoBehaviour
     public void setMapData( int x , int y , int tileID )
     {
         this.mapData[y].fieldDataXList[x] = tileID;
+
+        if( this.anchorDataArray != null )
+        {
+            this.anchorDataArray[x,y].PassableRefresh();
+            if( x > 0 )
+                this.anchorDataArray[x-1, y].PassableRefresh();
+            if (x < TileXMax-1)
+                this.anchorDataArray[x + 1, y].PassableRefresh();
+            if( y > 0 )
+                this.anchorDataArray[x , y-1].PassableRefresh();
+            if (y < TileYMax-1)
+                this.anchorDataArray[x, y + 1].PassableRefresh();
+        }
         //stageData.FieldDataYList[y].fieldDataXList[x] = tileID;
     }
 
@@ -570,7 +703,7 @@ public class MapController : MonoBehaviour
     public int GetOrderInLayerForTile(int x, int y, MapObjectOrderIndex ordeIndex)
     {
         //return (MAX_X - x) + y;
-        return ((MAX_X - x) + y) * (int)MapObjectOrderIndex.Max + (int)ordeIndex;
+        return ((TileXMax - x) + y) * (int)MapObjectOrderIndex.Max + (int)ordeIndex;
     }
 
     private static float calPosX(int x, int y)
@@ -609,7 +742,7 @@ public class MapController : MonoBehaviour
         if (masuID >= 100)
             return false;
 
-        if (masuID == 8 )
+        if (masuID == MapController.TileID_RandomTile)
             return false;
 
         return true;
@@ -650,8 +783,8 @@ public class MapController : MonoBehaviour
 
     //private int ItemCountMaxInTile = 5;
 
-    private Boolean isDebug = true;
-
+    private Boolean isClearRouteDebug = false;
+    private RandomMapTileAnchorData[,] anchorDataArray;
 
     private void SetItemTileForClearRoute( int itemBaseIndex , int itemCount)
     {
@@ -689,6 +822,7 @@ public class MapController : MonoBehaviour
         this.director.AddDebugText("ランダムマス " + this.randomTiles.Count);
 
 
+
         // データの中にゴールがあるか
         if ( !this.SearchGoal() )
         {
@@ -698,6 +832,18 @@ public class MapController : MonoBehaviour
             this.director.AddDebugText("ランダムマスの中からゴールを作成 " + this.tileGoal.MapIndexX + " , " + this.tileGoal.MapIndexY );
         }
 
+
+        //RandomMapTileAnchorData[,] anchorDataArray = new RandomMapTileAnchorData[this.TileXMax, this.TileYMax];
+        this.anchorDataArray = new RandomMapTileAnchorData[this.TileXMax, this.TileYMax];
+
+        for (int checkX = 0; checkX < this.TileXMax; checkX++)
+        {
+            for (int checkY = 0; checkY < this.TileYMax; checkY++)
+            {
+                anchorDataArray[checkX, checkY] = new RandomMapTileAnchorData(checkX, checkY, this);
+                anchorDataArray[checkX, checkY].PassableRefresh();
+            }
+        }
 
 
         PlayerController player = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -712,19 +858,44 @@ public class MapController : MonoBehaviour
 
         //if (randomTileLastCount > 0)
         {
+
+            List<RandomMapTileAnchorRequest> anchorRequestList = new List<RandomMapTileAnchorRequest>();
+
             while (randomTileLastCount > 0)
             {
                 beforeCount = randomTileLastCount;
 
-                // 四隅のタイルを探す
-                this.SearchCornerTile();
+                anchorRequestList.Clear();
 
+                // 四隅のタイルを探す
+                this.SearchAnchorTile(anchorRequestList);
+
+                this.ListRandomizer(anchorRequestList);
+
+                for ( int reqID= 0; reqID<Mathf.Min(this.stageData.RandomMapBranchDensity, anchorRequestList.Count); reqID++)
+                {
+                    RandomMapTileAnchorRequest anchorRequest = anchorRequestList[reqID];
+                    this.CreateRandomRoute(anchorRequest.DataIndex, anchorRequest.Direction);
+                }
+
+
+                /*
+                foreach (RandomMapTileAnchorRequest anchorRequest in anchorRequestList)
+                {
+                    this.CreateRandomRoute(anchorRequest.DataIndex, anchorRequest.Direction);
+                }
+                */
+
+                //aaa
+                //randomTileLastCount = 0;
+                /*
                 this.CreateRandomRoute(this.tileTop, Const.Direction.up);
                 this.CreateRandomRoute(this.tileBottom, Const.Direction.down);
                 this.CreateRandomRoute(this.tileLeft, Const.Direction.left);
                 this.CreateRandomRoute(this.tileRight, Const.Direction.right);
+                */
 
-                if( beforeCount == randomTileLastCount)
+                if ( beforeCount == randomTileLastCount)
                 {
                     lastRetryCount--;
                     if (lastRetryCount <= 0)
@@ -743,7 +914,7 @@ public class MapController : MonoBehaviour
             this.director.AddDebugText("クリアルート " + this.clearRouteTiles.Count + "マス");
 
 
-        if (this.isDebug)
+        if (this.isClearRouteDebug)
         {
             for (int clearRouteIndex = 0; clearRouteIndex < this.clearRouteTiles.Count; clearRouteIndex++)
             {
@@ -916,13 +1087,13 @@ public class MapController : MonoBehaviour
         // タイルオブジェクトを配置
         List<TileDataIndex> freeTiles = new List<TileDataIndex>();
 
-        for (int i = 0; i < MAX_X; ++i)
+        for (int i = 0; i < TileXMax; ++i)
         {
-            for (int j = 0; j < MAX_Y; ++j)
+            for (int j = 0; j < TileYMax; ++j)
             {
                 int checkID = this.getMapData(i, j);
 
-                if (checkID == 8)
+                if (checkID == MapController.TileID_RandomTile )
                     freeTiles.Add(new TileDataIndex(i, j, checkID));
             }
         }
@@ -944,14 +1115,77 @@ public class MapController : MonoBehaviour
             }
         }
 
+        foreach (MapObjectClusterParameter cluster in this.stageData.RandomClusterObjects)
+        {
+
+            for( int count=0; count<cluster.Count; count++ )
+            {
+
+                if (freeTileIndex >= freeTiles.Count)
+                    break;
+
+                TileDataIndex centerTile = freeTiles[freeTileIndex ++ ];
+
+
+                for( int indexX = Math.Max(0, centerTile.MapIndexX-cluster.Radius ); indexX <= Math.Min(centerTile.MapIndexX + cluster.Radius,TileXMax-1); indexX++ )
+                { 
+                    for (int indexY = Math.Max(0, centerTile.MapIndexY - cluster.Radius); indexY <= Math.Min(centerTile.MapIndexY + cluster.Radius, TileYMax-1); indexY++)
+                    {
+                        this.SetRandomMapClusterItem(cluster, indexX , indexY );
+                    }
+                }
+            }
+        }
+
         return true;
     }
 
-    private void CreateRandomRoute(TileDataIndex dataIndex, Const.Direction initDir)
+    private int CalcScattering( int scattering )
+    {
+        return UnityEngine.Random.Range(0, scattering );
+    }
+
+    private void SetRandomMapClusterItem( MapObjectClusterParameter cluster , int indexX , int indexY )
+    {
+
+        if (indexX < 0 || indexX>=TileXMax || indexY < 0 || indexY >= TileYMax)
+            return;
+
+        if (this.getMapData(indexX, indexY) != 8)
+            return;
+
+        int ratioSeedSum = 0;
+
+        foreach (MapObjectClusterItemParameter item in cluster.Items)
+        {
+            ratioSeedSum += item.Ratio;
+        }
+
+        int seed = UnityEngine.Random.Range(0, ratioSeedSum + 1);
+        int selectedCode = 0;
+        int checkRatio = 0;
+
+        foreach (MapObjectClusterItemParameter item in cluster.Items)
+        {
+            checkRatio += item.Ratio;
+            if (seed <= checkRatio)
+            {
+                selectedCode = item.Code;
+                break;
+            }
+        }
+
+        this.setMapData(indexX, indexY , selectedCode);
+
+    }
+
+
+    private void CreateRandomRoute(TileDataIndex dataIndex, Const.Direction initDir )
     {
 
         Const.Direction dir = initDir;
 
+        /*
         int seed = UnityEngine.Random.Range(0, 4);
         if (seed == 0)
             dir = Const.Direction.up;
@@ -961,12 +1195,31 @@ public class MapController : MonoBehaviour
             dir = Const.Direction.left;
         else
             dir = Const.Direction.right;
+        */
+
+        if (UnityEngine.Random.Range(0, 2) == 0)
+            this.isRandomRotateLeft = true;
+        else
+            this.isRandomRotateLeft = false;
 
 
+        int rotateMax = UnityEngine.Random.Range(3, 6);
 
-        for ( int rotateID = 1; rotateID < 8 && this.randomTileLastCount>0; rotateID++)
+        for ( int rotateID = 1; rotateID <= rotateMax && this.randomTileLastCount>0; rotateID++)
         {
-            int count = UnityEngine.Random.Range(2, 4);
+            int count;
+
+            if(this.stageData.RandomMapStraightDistanceMin< this.stageData.RandomMapStraightDistanceMax )
+                count = UnityEngine.Random.Range(this.stageData.RandomMapStraightDistanceMin, this.stageData.RandomMapStraightDistanceMax+1);
+            else
+                count = UnityEngine.Random.Range(this.stageData.RandomMapStraightDistanceMin, this.stageData.RandomMapStraightDistanceMin+1);
+
+            /*
+            if (UnityEngine.Random.Range(0, 8) == 0)
+                count = 2;
+            else
+                count = UnityEngine.Random.Range(3, 5);
+            */
 
             for (int createID = 0; createID < count && this.randomTileLastCount > 0; createID++)
             {
@@ -1004,16 +1257,16 @@ public class MapController : MonoBehaviour
         this.itemCandidateTilesLv1.Add(new TileDataIndex(dataIndex.MapIndexX, dataIndex.MapIndexY));
 
 
-        if (UnityEngine.Random.Range(0, 10) == 0)
+        if (UnityEngine.Random.Range(0, 2) == 0)
             this.isRandomRotateLeft = !this.isRandomRotateLeft;
     }
 
 
     private bool SearchGoal()
     {
-        for (int x = 0; x < MAX_X; ++x)
+        for (int x = 0; x < TileXMax; ++x)
         {
-            for (int y = 0; y < MAX_Y; ++y)
+            for (int y = 0; y < TileYMax; ++y)
             {
                 if (this.getMapData(x, y) == -1)
                 {
@@ -1027,17 +1280,232 @@ public class MapController : MonoBehaviour
         return false;
     }
     
-    private void SearchCornerTile()
+    private void SearchAnchorTile(List<RandomMapTileAnchorRequest> anchorRequestList )
     {
-        this.tileTop = new TileDataIndex(this.tileGoal);
-        this.tileLeft = new TileDataIndex(this.tileGoal);
-        this.tileBottom = new TileDataIndex(this.tileGoal);
-        this.tileRight = new TileDataIndex(this.tileGoal);
+        // this.tileTop = new TileDataIndex(this.tileGoal);
+        // this.tileLeft = new TileDataIndex(this.tileGoal);
+        // this.tileBottom = new TileDataIndex(this.tileGoal);
+        // this.tileRight = new TileDataIndex(this.tileGoal);
+
+        this.tileTop = null;
+        this.tileLeft = null;
+        this.tileBottom = null;
+        this.tileRight = null;
 
 
-        for (int x = 0; x < MAX_X; ++x)
+        RandomMapTileAnchorData tempAnchor;
+
+        //if( UnityEngine.Random.Range(0,2)==0 )
+        { 
+            tempAnchor = null;
+            for (int y = 0; y < TileYMax && tempAnchor == null; y++)
+            {
+                for (int x = 0; x <= this.tileGoal.MapIndexX  ; x++)
+                {
+                    if (MapController.GetIsRouteMasu(this.getMapData(x, y))) 
+                    {
+                        RandomMapTileAnchorData check = this.anchorDataArray[x, y];
+
+                        if( check.IsPassableTop )
+                        {
+                            if (tempAnchor == null)
+                                tempAnchor = check;
+                            else if( check.RouteCount < tempAnchor.RouteCount && check.RouteCount != 2 )
+                                tempAnchor = check;
+                        }
+                    }
+                }
+            }
+            if (tempAnchor != null)
+            {
+                anchorRequestList.Add(new RandomMapTileAnchorRequest(new TileDataIndex(tempAnchor.IndexX, tempAnchor.IndexY),Const.Direction.up));
+            }
+
+
+            tempAnchor = null;
+            for (int y = 0; y < TileYMax && tempAnchor == null; y++)
+            {
+                for (int x = TileXMax-1; x > this.tileGoal.MapIndexX; x--)
+                {
+                    if (MapController.GetIsRouteMasu(this.getMapData(x, y)))
+                    {
+                        RandomMapTileAnchorData check = this.anchorDataArray[x, y];
+
+                        if (check.IsPassableTop)
+                        {
+                            if (tempAnchor == null)
+                                tempAnchor = check;
+                            else if (check.RouteCount < tempAnchor.RouteCount && check.RouteCount != 2)
+                                tempAnchor = check;
+                        }
+                    }
+                }
+            }
+            if (tempAnchor != null)
+            {
+                anchorRequestList.Add(new RandomMapTileAnchorRequest(new TileDataIndex(tempAnchor.IndexX, tempAnchor.IndexY), Const.Direction.up));
+            }
+
+            tempAnchor = null;
+            for (int y = TileYMax-1; y >=0 && tempAnchor == null; y--)
+            {
+                for (int x = 0; x <= this.tileGoal.MapIndexX ; x++)
+                {
+                    if (MapController.GetIsRouteMasu(this.getMapData(x, y)))
+                    {
+                        RandomMapTileAnchorData check = this.anchorDataArray[x, y];
+
+                        if (check.IsPassableBottom)
+                        {
+                            if (tempAnchor == null)
+                                tempAnchor = check;
+                            else if (check.RouteCount < tempAnchor.RouteCount && check.RouteCount != 2)
+                                tempAnchor = check;
+                        }
+                    }
+                }
+            }
+            if (tempAnchor != null)
+            {
+                anchorRequestList.Add(new RandomMapTileAnchorRequest(new TileDataIndex(tempAnchor.IndexX, tempAnchor.IndexY), Const.Direction.down));
+            }
+
+            tempAnchor = null;
+            for (int y = TileYMax - 1; y >= 0 && tempAnchor == null; y--)
+            {
+                for (int x = TileXMax - 1; x > this.tileGoal.MapIndexX; x--)
+                {
+                    if (MapController.GetIsRouteMasu(this.getMapData(x, y)))
+                    {
+                        RandomMapTileAnchorData check = this.anchorDataArray[x, y];
+
+                        if (check.IsPassableBottom)
+                        {
+                            if (tempAnchor == null)
+                                tempAnchor = check;
+                            else if (check.RouteCount < tempAnchor.RouteCount && check.RouteCount != 2)
+                                tempAnchor = check;
+                        }
+                    }
+                }
+            }
+            if (tempAnchor != null)
+            {
+                anchorRequestList.Add(new RandomMapTileAnchorRequest(new TileDataIndex(tempAnchor.IndexX, tempAnchor.IndexY), Const.Direction.down));
+            }
+
+        }
+        //else
+        { 
+            tempAnchor = null;
+            for (int x = 0; x < TileXMax && tempAnchor == null; x++) 
+            {
+                for (int y = 0; y <= this.tileGoal.MapIndexY ; y++)
+                {
+                    if (MapController.GetIsRouteMasu(this.getMapData(x, y)))
+                    {
+                        RandomMapTileAnchorData check = this.anchorDataArray[x, y];
+
+                        if (check.IsPassableLeft)
+                        {
+                            if (tempAnchor == null)
+                                tempAnchor = check;
+                            else if (check.RouteCount < tempAnchor.RouteCount && check.RouteCount != 2)
+                                tempAnchor = check;
+                        }
+                    }
+                }
+            }
+            if (tempAnchor != null)
+            {
+                anchorRequestList.Add(new RandomMapTileAnchorRequest(new TileDataIndex(tempAnchor.IndexX, tempAnchor.IndexY), Const.Direction.left));
+            }
+
+
+            tempAnchor = null;
+            for (int x = 0; x < TileXMax && tempAnchor == null; x++)
+            {
+                for (int y = TileYMax-1 ; y > this.tileGoal.MapIndexY ; y--)
+                {
+                    if (MapController.GetIsRouteMasu(this.getMapData(x, y)))
+                    {
+                        RandomMapTileAnchorData check = this.anchorDataArray[x, y];
+
+                        if (check.IsPassableLeft)
+                        {
+                            if (tempAnchor == null)
+                                tempAnchor = check;
+                            else if (check.RouteCount < tempAnchor.RouteCount && check.RouteCount != 2)
+                                tempAnchor = check;
+                        }
+                    }
+                }
+            }
+            if (tempAnchor != null)
+            {
+                anchorRequestList.Add(new RandomMapTileAnchorRequest(new TileDataIndex(tempAnchor.IndexX, tempAnchor.IndexY), Const.Direction.left));
+            }
+
+
+            tempAnchor = null;
+            for (int x = TileXMax-1; x >=0  && tempAnchor == null; x--)
+            {
+                for (int y = 0; y < this.tileGoal.MapIndexY; y++)
+                {
+                    if (MapController.GetIsRouteMasu(this.getMapData(x, y)))
+                    {
+                        RandomMapTileAnchorData check = this.anchorDataArray[x, y];
+
+                        if (check.IsPassableRight)
+                        {
+                            if (tempAnchor == null)
+                                tempAnchor = check;
+                            else if (check.RouteCount < tempAnchor.RouteCount && check.RouteCount != 2)
+                            {
+                                tempAnchor = check;
+                            }
+                        }
+                    }
+                }
+            }
+            if (tempAnchor != null)
+            {
+                anchorRequestList.Add(new RandomMapTileAnchorRequest(new TileDataIndex(tempAnchor.IndexX, tempAnchor.IndexY), Const.Direction.right));
+            }
+
+
+            tempAnchor = null;
+            for (int x = TileXMax - 1; x >= 0 && tempAnchor == null; x--)
+            {
+                for (int y = TileYMax - 1; y > this.tileGoal.MapIndexY; y--)
+                {
+                    if (MapController.GetIsRouteMasu(this.getMapData(x, y)))
+                    {
+                        RandomMapTileAnchorData check = this.anchorDataArray[x, y];
+
+                        if (check.IsPassableRight)
+                        {
+                            if (tempAnchor == null)
+                                tempAnchor = check;
+                            else if (check.RouteCount < tempAnchor.RouteCount && check.RouteCount != 2)
+                            {
+                                tempAnchor = check;
+                            }
+                        }
+                    }
+                }
+            }
+            if (tempAnchor != null)
+            {
+                anchorRequestList.Add(new RandomMapTileAnchorRequest(new TileDataIndex(tempAnchor.IndexX, tempAnchor.IndexY), Const.Direction.right));
+            }
+        }
+
+
+        /*
+        for (int x = 0; x < TileXMax; ++x)
         {
-            for (int y = 0; y < MAX_Y; ++y)
+            for (int y = 0; y < TileYMax; ++y)
             {
                 if( MapController.GetIsRouteMasu(this.getMapData(x, y)))
                 {
@@ -1067,16 +1535,17 @@ public class MapController : MonoBehaviour
                 }
             }
         }
+        */
 
     }
 
     private void SearchRandomTiles()
     {
-        for (int x = 0; x < MAX_X; ++x)
+        for (int x = 0; x < TileXMax; ++x)
         {
-            for (int y = 0; y < MAX_Y; ++y)
+            for (int y = 0; y < TileYMax; ++y)
             {
-                if (this.getMapData(x, y) == 8)
+                if (this.getMapData(x, y) == MapController.TileID_RandomTile)
                 {
                     this.randomTiles.Add(new TileDataIndex(x, y));
                 }
@@ -1087,6 +1556,16 @@ public class MapController : MonoBehaviour
     private void CreateGoalForRandomTile()
     {
         TileDataIndex goalTile = this.randomTiles[UnityEngine.Random.Range(0, this.randomTiles.Count)];
+
+        for ( int retryCount= 0; retryCount < 100; retryCount++)
+        {
+
+            if (goalTile.MapIndexX <= 2 || goalTile.MapIndexX >= TileXMax - 3 || goalTile.MapIndexY <= 2 || goalTile.MapIndexY >= TileYMax - 3)
+                goalTile = this.randomTiles[UnityEngine.Random.Range(0, this.randomTiles.Count)];
+            else
+                break;
+        }
+
 
         int x = goalTile.MapIndexX;
         int y = goalTile.MapIndexY;
@@ -1117,7 +1596,7 @@ public class MapController : MonoBehaviour
                 break;
         }
 
-        if ( nextX<MAX_X-2 && nextX>=2 && nextY<MAX_Y-2 && nextY>=2 && this.getMapData(nextX, nextY) == 8)
+        if ( nextX<TileXMax-2 && nextX>=2 && nextY<TileYMax-2 && nextY>=2 && this.getMapData(nextX, nextY) == MapController.TileID_RandomTile)
         {
             bool isCanCreate = true;
 
@@ -1190,7 +1669,7 @@ public class MapController : MonoBehaviour
             if (check != null)
             {
                 int tileIndex = this.getMapData(check.MapIndexX, check.MapIndexY);
-                if (tileIndex != 1 && tileIndex != 8)
+                if (tileIndex != 1 && tileIndex != MapController.TileID_RandomTile )
                     continue;
                 else
                     break;
@@ -1222,7 +1701,7 @@ public class MapController : MonoBehaviour
             if (check != null)
             {
                 int tileIndex = this.getMapData(check.MapIndexX, check.MapIndexY);
-                if (tileIndex != 1 && tileIndex != 8)
+                if (tileIndex != 1 && tileIndex != MapController.TileID_RandomTile)
                     continue;
                 else
                     break;
@@ -1248,6 +1727,30 @@ public class MapController : MonoBehaviour
         }
     }
 
+    /*
+    private void AnchorRequestRandomizer(List<RandomMapTileAnchorRequest> items)
+    {
+        for (int id = items.Count - 1; id >= 0; id--)
+        {
+            int moveIndex = UnityEngine.Random.Range(0, items.Count);
+            RandomMapTileAnchorRequest temp = items[moveIndex];
+            items[moveIndex] = items[id];
+            items[id] = temp;
+        }
+    }
+    */
+
+    public void ListRandomizer<Type>(List<Type> items) 
+    {
+        for (int id = items.Count - 1; id >= 0; id--)
+        {
+            int moveIndex = UnityEngine.Random.Range(0, items.Count);
+            Type temp = items[moveIndex];
+            items[moveIndex] = items[id];
+            items[id] = temp;
+        }
+    }
+
     //private int clearRouteTileMax = 35;
 
     //private int clearRouteTileMax = 50;
@@ -1255,9 +1758,9 @@ public class MapController : MonoBehaviour
 
     private bool CheckNextClearRoute( int nextX , int nextY )
     {
-        if (nextX < 0 || nextX >= MAX_X)
+        if (nextX < 0 || nextX >= TileXMax)
             return false;
-        if (nextY < 0 || nextY >= MAX_Y)
+        if (nextY < 0 || nextY >= TileYMax)
             return false;
 
         /*
@@ -1563,10 +2066,10 @@ public class MapController : MonoBehaviour
     private void DumpMapData()
     {
 
-        for (int i = 0; i < MAX_X; ++i)
+        for (int i = 0; i < TileXMax; ++i)
         {
             string line = "";
-            for (int j = 0; j < MAX_Y; ++j)
+            for (int j = 0; j < TileYMax; ++j)
             {
                 int x = i;
                 int y = j;
