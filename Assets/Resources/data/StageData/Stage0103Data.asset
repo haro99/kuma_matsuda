@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -35,3 +36,16 @@ MonoBehaviour:
   - fieldDataXList: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   - fieldDataXList: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   - fieldDataXList: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  BackgroundPrefab: {fileID: 0}
+  DiceCount: 10
+  RandomMapClearRouteTileCountMin: 20
+  RandomMapClearRouteDistanceMax: 50
+  RandomMapItemCountMaxInTile: 3
+  RandomMapEnemyCount: 1
+  RandomMapSpecailCount: 3
+  RandomMapRandomItemCount: 1
+  RandomMapBranchDensity: 2
+  RandomMapStraightDistanceMin: 3
+  RandomMapStraightDistanceMax: 6
+  RandomSpotsObjects: []
+  RandomClusterObjects: []
