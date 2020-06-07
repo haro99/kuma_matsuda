@@ -72,6 +72,11 @@ public class SugorokuMenuController : MonoBehaviour
                 this.nodes[printedNodeCount].transform.Find("StageNumber1").gameObject.GetComponent<Text>().text = (printStageNum1+1).ToString();
                 this.nodes[printedNodeCount].transform.Find("StageNumber2").gameObject.GetComponent<Text>().text = (printStageNum2+1).ToString();
 
+                StageDataTable stageData = HomeDirector.GetInstance().getStageDataTable(printStageNum1+1, printStageNum2+1);
+                
+
+                this.nodes[printedNodeCount].transform.Find("DiceAmount").gameObject.GetComponent<Text>().text = (stageData.DiceCount).ToString();
+
                 this.nodes[printedNodeCount].SetActive(true);
 
                 // 星

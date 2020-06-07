@@ -333,7 +333,7 @@ public class HomeDirector : MonoBehaviour , IDebugCommandRecver
 
     }
 
-    private StageDataTable getStageDataTable(int stageNo1, int stageNo2)
+    public StageDataTable getStageDataTable(int stageNo1, int stageNo2)
     {
         return Resources.Load("data/StageData/Stage" + stageNo1.ToString().PadLeft(2, '0') + stageNo2.ToString().PadLeft(2, '0') + "Data") as StageDataTable;
     }
