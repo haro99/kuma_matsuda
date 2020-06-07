@@ -54,7 +54,7 @@ MonoBehaviour:
   RandomMapClearRouteTileCountMin: 20
   RandomMapClearRouteDistanceMax: 50
   RandomMapItemCountMaxInTile: 3
-  RandomMapEnemyCount: 1
+  RandomMapEnemyCount: 0
   RandomMapSpecailCount: 3
   RandomMapRandomItemCount: 1
   RandomMapBranchDensity: 2
