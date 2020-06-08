@@ -41,7 +41,7 @@ public class CardMenuController : MonoBehaviour
 
     public void ShowDetail( int cardID )
     {
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
         HomeDirector.GetInstance().SoundPlaySelect();
         this.cardDetailPrinter.SetCardID(cardID);
     }
