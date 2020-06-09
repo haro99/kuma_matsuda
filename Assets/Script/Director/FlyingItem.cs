@@ -162,8 +162,7 @@ public class FlyingItem : SpriteObject
 
                 float moveDistance = 30f * Time.deltaTime;
 
-                //if (moveDistance > d)
-                if ( d < 30f )
+                if ( d <= 30f || h >= 0 )
                 {
                     this.StatusChange(StatusType.Finish);
                     return;
