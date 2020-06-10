@@ -191,7 +191,9 @@ public class HomeDirector : MonoBehaviour , IDebugCommandRecver
         }
         else
         {
+
             this.SugorokuMenu.SetActive(true);
+            this.SugorokuMenu.GetComponent<SugorokuMenuController>().OpenSugorokuMenu();
             this.PlayConfirmMenu.SetActive(false);
             this.changeOnLabel(menuBarObject, "Sugoroku");
         }
@@ -204,6 +206,7 @@ public class HomeDirector : MonoBehaviour , IDebugCommandRecver
 
     private void OpenPlayConfirmMenu()
     {
+        
         this.SugorokuMenu.SetActive(false);
         this.PlayConfirmMenu.SetActive(true);
         this.PlayConfirmMenu.GetComponent<StageConfirmController>().Initalize(this.selectedStage1, this.selectedStage2);

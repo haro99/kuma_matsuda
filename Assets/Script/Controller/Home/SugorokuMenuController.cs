@@ -124,5 +124,34 @@ public class SugorokuMenuController : MonoBehaviour
     public void CloseSugorokuMenu()
     {
         m_Toggle.isOn = false;
+    
+
+        foreach (Transform child in this.transform)
+        {
+            //Debug.Log("child:" + child.name);
+            if (child.name.Substring(0, 4) != "Node")
+            {
+                continue;
+            }
+
+            GameObject nodeFrame = child.transform.Find("Frame").gameObject;
+            nodeFrame.GetComponent<StageFrameController>().FrameOff();
+        }
+    }
+
+
+    public void OpenSugorokuMenu()
+    {
+        foreach (Transform child in this.transform)
+        {
+            //Debug.Log("child:" + child.name);
+            if (child.name.Substring(0, 4) != "Node")
+            {
+                continue;
+            }
+
+            GameObject nodeFrame = child.transform.Find("Frame").gameObject;
+            nodeFrame.GetComponent<StageFrameController>().FrameOff();
+        }
     }
 }
