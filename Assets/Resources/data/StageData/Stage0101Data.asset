@@ -44,7 +44,7 @@ MonoBehaviour:
   RandomMapItemCountMaxInTile: 1
   RandomMapEnemyCount: 0
   RandomMapSpecailCount: 3
-  RandomMapRandomItemCount: 1
+  RandomMapRandomItemCount: 3
   RandomMapBranchDensity: 2
   RandomMapStraightDistanceMin: 3
   RandomMapStraightDistanceMax: 6

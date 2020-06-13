@@ -38,5 +38,11 @@ public class BlinkImageController : MonoBehaviour
             total += m_DeltaTime * m_AngularFrequency;
             m_Time = 0;
         }
+
+        // 左クリックしたら、効果音を鳴らす
+        if (Input.GetMouseButtonDown(0))
+        {
+            GetComponent<AudioSource>().Play();  // 効果音を鳴らす
+        }
     }
 }

@@ -191,7 +191,6 @@ public class HomeDirector : MonoBehaviour , IDebugCommandRecver
         }
         else
         {
-
             this.SugorokuMenu.SetActive(true);
             this.SugorokuMenu.GetComponent<SugorokuMenuController>().OpenSugorokuMenu();
             this.PlayConfirmMenu.SetActive(false);
