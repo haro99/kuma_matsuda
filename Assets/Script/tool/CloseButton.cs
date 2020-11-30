@@ -13,7 +13,8 @@ public class CloseButton : ButtonObject
 
     public override void PointDown()
     {
-        this.closeListener.Close();
+        if( this.closeListener != null )
+            this.closeListener.Close();
     }
 
 }

@@ -22,11 +22,18 @@ public class ActionButtonDirector : MonoBehaviour {
     private List<int> showCardIDs;
     private int showCardIndex;
 
+    private GameObject CutInCanvas;
+
+    private CutInController cutInController;
+
     void Start ()
     {
 		sugorokuDirector = sugorokuDirectorObject.GetComponent<SugorokuDirector> ();
 		diceController = diceObject.GetComponent<DiceController> ();
         cardController = card.GetComponent<CardController>();
+
+        this.CutInCanvas = GameObject.Find("CanvasCutIn");
+        this.cutInController = this.CutInCanvas.GetComponent<CutInController>();
 
         this.showCardIDs = new List<int>();
         
@@ -65,6 +72,48 @@ public class ActionButtonDirector : MonoBehaviour {
         //
     }
 
+
+    private enum CardGetStatus
+    {
+        None ,
+        CutInAnimation , 
+        RollAnimation ,
+    }
+
+    private CardGetStatus cardGetStatus;
+
+    public void Update()
+    {
+        switch( this.cardGetStatus )
+        {
+            case CardGetStatus.CutInAnimation:
+                if (this.cutInController.IsFinished)
+                {
+                    this.cardGetStatus = CardGetStatus.RollAnimation;
+
+                    int showCardID = this.showCardIDs[this.showCardIndex];
+                    cardController.Open(showCardID);
+
+                    star.SetActive(false);
+                    card.SetActive(true);
+
+                }
+                break;
+
+            case CardGetStatus.RollAnimation:
+
+                if (cardController.IsFinish())
+                {
+                    this.showCardIndex++;
+                    cardController.Finish();
+
+                    if (this.showCardIDs.Count > this.showCardIndex)
+                        this.cardGetStatus = CardGetStatus.CutInAnimation;
+                }
+                break;
+        }
+    }
+
     public void onClick()
     {
         //Debug.Log("onClick: start");
@@ -73,8 +122,10 @@ public class ActionButtonDirector : MonoBehaviour {
             // startMessageを削除
             startMessage.SetActive(false);
             sugorokuDirector.ChangeWaitDiceClick();
-
-
+        }
+        else if( sugorokuDirector.isSpecialSelecting() )
+        {
+            sugorokuDirector.SpecialSelectSkipRequest();
         }
 
         if (sugorokuDirector.isClear())
@@ -91,16 +142,26 @@ public class ActionButtonDirector : MonoBehaviour {
                     SceneManager.LoadScene("HomeScene");
                     return;
                 }
-                else
-                {
-                    //this.showCardIndex++;                    
-                }
-
             }
 
             if (this.showCardIDs.Count > this.showCardIndex)
-            { 
+            {
 
+                if( this.cardGetStatus == CardGetStatus.None )
+                {
+                    this.cutInController.Open();
+                    this.cardGetStatus = CardGetStatus.CutInAnimation;
+                }
+                else if (this.cardGetStatus == CardGetStatus.CutInAnimation)
+                {
+                    this.cutInController.Close();
+                }
+                else if (this.cardGetStatus == CardGetStatus.RollAnimation )
+                {
+                    this.cardController.Finish();
+                }
+
+                /*
                 if( !cardController.IsFinish())
                 {
                     cardController.Finish();
@@ -108,20 +169,20 @@ public class ActionButtonDirector : MonoBehaviour {
                 }
                 else
                 {
+                    
                     int showCardID = this.showCardIDs[this.showCardIndex];
 
                     star.SetActive(false);
                     card.SetActive(true);
-                    cardController.open(showCardID);
+                    cardController.Open(showCardID);
                     this.showCardIndex++;
                 }
+                */
             }
             else
             {
                 cardController.Finish();
             }
-
-
         }
 
         if (sugorokuDirector.isGameOver())

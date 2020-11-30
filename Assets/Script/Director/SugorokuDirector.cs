@@ -18,6 +18,9 @@ public class SugorokuDirector : MonoBehaviour
     [SerializeField]
     Const.GameStatus gameStatus;         // 0:wait 1:waitDiceClick 2:diceWait 3:playerMenuSelectWait 4:playerMove 5:userWaySelect 6:clear 7:gameOver
 
+    [SerializeField]
+    public DevelopersOption DevelopersOption;
+
     public GameObject mainCamera;
 
     public GameObject sceneObject;
@@ -35,6 +38,7 @@ public class SugorokuDirector : MonoBehaviour
 
     public GameObject darkObject;
     public GameObject specialFrame;
+    public GameObject tutorialFrame;
 
     //-------------------- ステージ -----------------
 
@@ -81,7 +85,9 @@ public class SugorokuDirector : MonoBehaviour
 
     private List<GameObject> usedSpecialTiles;
 
-    private List<EnemyGetFoodData> enemyGetFoods;
+    private List<GetFoodData> enemyGetFoods;
+    private List<GetFoodData> playerGetFoods;
+
 
     public Camera Camera
     {
@@ -154,7 +160,8 @@ public class SugorokuDirector : MonoBehaviour
 
         this.usedSpecialTiles = new List<GameObject>();
 
-        this.enemyGetFoods = new List<EnemyGetFoodData>();
+        this.enemyGetFoods = new List<GetFoodData>();
+        this.playerGetFoods = new List<GetFoodData>();
 
         //this.Resource = new SugorokuResource();
         this.soundData = SaveData.GetClass<SoundData>("soundData", new SoundData());
@@ -203,7 +210,22 @@ public class SugorokuDirector : MonoBehaviour
 
         this.MapController = map.GetComponent<MapController>();
 
+
         stageData = sceneObject.GetComponent<SugorokuScene>().GetStageData();
+
+
+
+        ClearStarData clearStar = SaveData.GetClass<ClearStarData>("clearStar", new ClearStarData());
+        if( clearStar.clearStageStarList[0].clearStarList[0]<=0 )
+            this.ChangeGameStatus(Const.GameStatus.tutorial);
+        else
+            this.ChangeGameStatus(Const.GameStatus.wait);
+
+    }
+
+    public void ClosedTutorial()
+    {
+        this.ChangeGameStatus(Const.GameStatus.wait);
     }
 
     private IEnumerator Manager()
@@ -221,7 +243,8 @@ public class SugorokuDirector : MonoBehaviour
         // playerターン
         while (player.GetComponent<CharaController>().getLimitValue() > 0)
         {
-            yield return new WaitForSeconds(0.25f);
+            //yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(this.DevelopersOption.PlayerMoveStepWait);
             yield return this.CharaMove(player);
         }
 
@@ -237,12 +260,19 @@ public class SugorokuDirector : MonoBehaviour
                     {
                         yield return new WaitForSeconds(0.2f);
                         mainCamera.GetComponent<MainCameraController>().setCharaObject(child.gameObject);
-                        yield return new WaitForSeconds(1f);
+                        //yield return new WaitForSeconds(1f);
+                        yield return new WaitForSeconds( this.DevelopersOption.EnemyMoveStartWait );
                         first = false;
                     }
-                    yield return new WaitForSeconds(0.25f);
+
+                    //yield return new WaitForSeconds(0.25f);
+                    yield return new WaitForSeconds(this.DevelopersOption.EnemyMoveStepWait);
                     yield return this.CharaMove(child.gameObject);
                 }
+
+                // 移動終了待ち
+                yield return new WaitForSeconds(this.DevelopersOption.EnemyMoveFinishWait);
+
             }
         }
 
@@ -260,7 +290,8 @@ public class SugorokuDirector : MonoBehaviour
 
         while (gameStatus == Const.GameStatus.diceWait)
         {
-            yield return new WaitForSeconds(2.0f);
+            //yield return new WaitForSeconds(2.0f);
+            yield return new WaitForSeconds(this.DevelopersOption.DiceStopWait);
             // サイコロが止まるのを待つ
             if (gameStatus == Const.GameStatus.diceWait)
             {
@@ -280,7 +311,8 @@ public class SugorokuDirector : MonoBehaviour
 
         if( !this.specialDiceFreeTime.IsFinished )
         {
-            this.specialDiceFreeTime.Update();
+            if( this.gameStatus == Const.GameStatus.diceWait || this.gameStatus == Const.GameStatus.waitDiceClick || this.gameStatus == Const.GameStatus.playerMove || this.gameStatus == Const.GameStatus.userWaySelect )
+                this.specialDiceFreeTime.Update();
 
             this.specialDiceFreeCounter.TimeUpdate(this.specialDiceFreeTime.Ratio);
 
@@ -387,6 +419,12 @@ public class SugorokuDirector : MonoBehaviour
 
         if (status == Const.GameStatus.wait)
         {
+        }
+
+
+        if( status == Const.GameStatus.tutorial )
+        {
+            this.tutorialFrame.SetActive(true);
         }
 
 
@@ -765,14 +803,23 @@ public class SugorokuDirector : MonoBehaviour
             }
             else
             {
-                foreach( EnemyGetFoodData foodData in this.enemyGetFoods )
+
+                foreach (GetFoodData foodData in this.playerGetFoods)
+                {
+                    TileData tileData = foodData.tileObject.GetComponent<TileData>();
+                    int mapData = this.MapController.getMapData(tileData.MapIndexX, tileData.MapIndexY);
+
+                    // アイテムを作成
+                    this.MapController.CreateMapItem(tileData.MapIndexX, tileData.MapIndexY, foodData.tileObject, mapData);
+                }
+
+                foreach ( GetFoodData foodData in this.enemyGetFoods )
                 {
                     TileData tileData = foodData.tileObject.GetComponent<TileData>();
                     int mapData = this.MapController.getMapData(tileData.MapIndexX, tileData.MapIndexY);
 
                     // アイテムを作成
                     this.MapController.CreateMapItem( tileData.MapIndexX , tileData.MapIndexY , foodData.tileObject , mapData);
-                    //aaaa
                 }
 
                 if( this.IsItemX2Mode )
@@ -991,6 +1038,16 @@ public class SugorokuDirector : MonoBehaviour
         return (Const.GameStatus.gameOver == this.gameStatus);
     }
 
+    public bool isSpecialSelecting()
+    {
+        return (Const.GameStatus.special == this.gameStatus);
+    }
+
+    public bool isSpecialSelected()
+    {
+        return (Const.GameStatus.special_effect == this.gameStatus);
+    }
+
     public bool isFinish()
     {
         return isClear() || isGameOver();
@@ -1061,15 +1118,28 @@ public class SugorokuDirector : MonoBehaviour
         this.ChangeGameStatus(Const.GameStatus.special_effect);
     }
 
+    public void SpecialSelectSkipRequest()
+    {
+        this.specialSelecter.Skip();
+    }
+
+
     public void AddItem( GameObject obj )
     {
         this.Items.Add(obj);
     }
 
-    public void AddEnemyGetFood( EnemyGetFoodData foodData )
+    public void AddEnemyGetFood( GetFoodData foodData )
     {
         this.enemyGetFoods.Add(foodData);
     }
+
+
+    public void AddPlayerGetFood(GetFoodData foodData)
+    {
+        this.playerGetFoods.Add(foodData);
+    }
+
 
     public void AddDebugText( string text )
     {

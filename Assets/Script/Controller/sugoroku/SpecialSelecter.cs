@@ -108,11 +108,9 @@ public class SpecialSelecter : MonoBehaviour
         this.statusTime = new LimitTimeCounter();
         this.shakeTime = new LimitTimeCounter();
 
-        //this.selectedID = (int)Const.Special.Item_x2;
-        //this.selectedID = UnityEngine.Random.Range(0, 3);
         int seed = UnityEngine.Random.Range(0, 10);
 
-        if( seed>=8 )
+        if( seed>=7 )
             this.selectedID = (int)Const.Special.Dice_Free_15Sec;
         else if (seed >= 4)
             this.selectedID = (int)Const.Special.Item_x2;
@@ -120,6 +118,7 @@ public class SpecialSelecter : MonoBehaviour
             this.selectedID = (int)Const.Special.Dice_Plus_One;
 
         //this.selectedID = (int)Const.Special.Item_x2;
+        //this.selectedID = (int)Const.Special.Dice_Free_15Sec;
 
 
         this.rollIndex = 0;
@@ -180,7 +179,8 @@ public class SpecialSelecter : MonoBehaviour
         switch( this.status )
         {
             case StatusType.RollFullSpeed:
-                this.rollCoolTime = 0.1f;
+                //this.rollCoolTime = 0.1f;
+                this.rollCoolTime = this.director.DevelopersOption.SpecialRollMaxSpeed;
                 this.statusTime.Start(this.rollCoolTime);
 
                 this.rollLastCount = UnityEngine.Random.Range(5, 10);
@@ -188,8 +188,13 @@ public class SpecialSelecter : MonoBehaviour
                 break;
 
             case StatusType.Selected:
+                this.RollChange(this.selectedID);
                 this.message.SpecialSelected(this.selectedID);
-                this.statusTime.Start(3f);
+
+
+                //this.statusTime.Start(3f);
+                this.statusTime.Start(this.director.DevelopersOption.SpecialSelectFinishWait);
+
                 this.director.SoundPlay(this.audioSourceSelected);
                 this.flush.Flush(5);
 
@@ -266,7 +271,13 @@ public class SpecialSelecter : MonoBehaviour
         }
     }
 
-
+    public void Skip()
+    {
+        if( this.status != StatusType.Selected )
+            this.StatusChange(StatusType.Selected);
+        else if (this.status == StatusType.Selected )
+            this.statusTime.Clear();
+    }
 
 
 }
