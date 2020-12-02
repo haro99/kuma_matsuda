@@ -140,7 +140,7 @@ public class CardController : MovablObject
     }
 
 
-    public void open( int newCardID )
+    public void Open( int newCardID )
     {
         this.cardID = newCardID;
         this.t = 0;

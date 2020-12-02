@@ -26,9 +26,8 @@ public class Const : MonoBehaviour
         clear = 7,
         gameOver = 8,
         special = 9 ,
-        special_effect = 10
-
-
+        special_effect = 10 ,
+        tutorial = 11, 
     }
 
 

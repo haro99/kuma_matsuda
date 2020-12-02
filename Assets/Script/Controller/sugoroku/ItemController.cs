@@ -62,6 +62,12 @@ public class ItemController : MonoBehaviour
                 
                 destroyFlg = true;
 
+
+                Const.Item item = this.GetItem();
+                GameObject tileObject = this.transform.parent.gameObject;
+
+                SugorokuDirector.GetInstance().AddEnemyGetFood(new GetFoodData(tileObject, item));
+
                 GameObject.Destroy(this.gameObject);
 
             }
@@ -84,7 +90,7 @@ public class ItemController : MonoBehaviour
                     Const.Item item = this.GetItem();
                     GameObject tileObject = this.transform.parent.gameObject;
 
-                    SugorokuDirector.GetInstance().AddEnemyGetFood(new EnemyGetFoodData(tileObject, item));
+                    SugorokuDirector.GetInstance().AddEnemyGetFood(new GetFoodData(tileObject, item));
 
                     GameObject.Destroy(this.gameObject);
                 }

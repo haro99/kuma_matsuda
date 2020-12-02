@@ -17,9 +17,20 @@ public class SugorokuResource
 
     public GameObject PrefabItemGetStar { get; private set; }
 
+    //public GameObject PrefabCutInspiration { get; private set; }
+    //public GameObject[] PrefabsCutIn { get; private set; }
+
+
+
+
+
+
     public Sprite[] SpritesSpecialFrame { get; private set; }
     public Sprite[] SpritesSpecialMessage { get; private set; }
     public Sprite[] SpritesNumberParts { get; private set; }
+
+    public Sprite[] SpritesDiceArray { get; private set; }
+    public Sprite[] SpritesDiceArrayRotation { get; private set; }
 
     public AudioClip AudioSaiStart { get; private set; }
     public AudioClip AudioSaiStop { get; private set; }
@@ -47,6 +58,9 @@ public class SugorokuResource
         this.SpritesSpecialFrame = Resources.LoadAll<Sprite>("images/sugoroku/special/special_frame");
         this.SpritesSpecialMessage = Resources.LoadAll<Sprite>("images/sugoroku/special/special_message");
         this.SpritesNumberParts = Resources.LoadAll<Sprite>("images/text/number/number_parts_white");
+
+        this.SpritesDiceArray = Resources.LoadAll<Sprite>("images/sugoroku/dice/dice_array");
+        this.SpritesDiceArrayRotation = Resources.LoadAll<Sprite>("images/sugoroku/dice/dice_array_rotation");
 
         this.AudioSaiStart = Resources.Load("sound/sai_start", typeof(AudioClip)) as AudioClip;
         this.AudioSaiStop = Resources.Load("sound/sai_stop", typeof(AudioClip)) as AudioClip;

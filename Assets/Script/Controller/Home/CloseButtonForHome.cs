@@ -8,7 +8,7 @@ public class CloseButtonForHome : CloseButton
     public override void PointDown()
     {
         base.PointDown();
-        HomeDirector.GetInstance().SoundPlaySelect();
+        //HomeDirector.GetInstance().SoundPlaySelect();
         CardMenu.SetActive(true);
     }
 

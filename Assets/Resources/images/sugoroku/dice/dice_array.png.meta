@@ -1,0 +1,481 @@
+fileFormatVersion: 2
+guid: 3b5523dba4fdaed418a69a9e75de8fc5
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -298072370063081000
+    second: dice_array_0
+  - first:
+      213: 243027496675803964
+    second: dice_array_1
+  - first:
+      213: -6637588289879067841
+    second: dice_array_2
+  - first:
+      213: -5052591876921504070
+    second: dice_array_3
+  - first:
+      213: -6054319659675925198
+    second: dice_array_4
+  - first:
+      213: 977519121933599916
+    second: dice_array_5
+  - first:
+      213: -4894866428993255341
+    second: dice_array_6
+  - first:
+      213: 6043971937609996018
+    second: dice_array_7
+  - first:
+      213: -7601108749395933916
+    second: dice_array_8
+  - first:
+      213: 7802542647875613482
+    second: dice_array_9
+  - first:
+      213: -1924391026933410828
+    second: dice_array_10
+  - first:
+      213: 4013914981479049330
+    second: dice_array_11
+  - first:
+      213: 3085214729836701586
+    second: dice_array_12
+  - first:
+      213: 1986016263570950169
+    second: dice_array_13
+  - first:
+      213: -9118775584273440444
+    second: dice_array_14
+  - first:
+      213: 459209381754907070
+    second: dice_array_15
+  - first:
+      213: 8625608325938527602
+    second: dice_array_16
+  - first:
+      213: 1132964292937667217
+    second: dice_array_17
+  - first:
+      213: 73176368930529449
+    second: dice_array_18
+  - first:
+      213: -8092249433823620920
+    second: dice_array_19
+  - first:
+      213: -848522128696054014
+    second: dice_array_20
+  - first:
+      213: 9145256807521267023
+    second: dice_array_21
+  - first:
+      213: -5682573404922462474
+    second: dice_array_22
+  - first:
+      213: -1575874071412774834
+    second: dice_array_23
+  - first:
+      213: -5538780098028741460
+    second: dice_array_24
+  - first:
+      213: 785528239997004870
+    second: dice_array_25
+  - first:
+      213: 1689032972874810687
+    second: dice_array_26
+  - first:
+      213: 8774352906095283752
+    second: dice_array_27
+  - first:
+      213: 8311496993893777529
+    second: dice_array_28
+  - first:
+      213: -5447552264129179744
+    second: dice_array_29
+  - first:
+      213: 5559580667961810894
+    second: dice_array_30
+  - first:
+      213: -4698908773086658885
+    second: dice_array_31
+  - first:
+      213: 4919591274220508243
+    second: dice_array_32
+  - first:
+      213: 5335781657506652785
+    second: dice_array_33
+  - first:
+      213: 6923807223878311655
+    second: dice_array_34
+  - first:
+      213: 6750153729892090100
+    second: dice_array_35
+  - first:
+      213: 1894517441065132090
+    second: dice_array_36
+  - first:
+      213: -4806777913405635417
+    second: dice_array_37
+  - first:
+      213: -3348260223777575142
+    second: dice_array_38
+  - first:
+      213: -4952803426480026410
+    second: dice_array_39
+  - first:
+      213: 2150558174747255562
+    second: dice_array_40
+  - first:
+      213: -4973090385391376365
+    second: dice_array_41
+  - first:
+      213: 4904310336601983589
+    second: dice_array_42
+  - first:
+      213: 6081154718986736719
+    second: dice_array_43
+  - first:
+      213: 5649913650598727610
+    second: dice_array_44
+  - first:
+      213: 7105535189549445459
+    second: dice_array_45
+  - first:
+      213: -1032611842192600309
+    second: dice_array_46
+  - first:
+      213: -3897403040970662312
+    second: dice_array_47
+  - first:
+      213: 3747236061088716251
+    second: dice_array_48
+  - first:
+      213: -8430916095051966502
+    second: dice_array_49
+  - first:
+      213: 7315208316312187121
+    second: dice_array_50
+  - first:
+      213: 8552950096460291836
+    second: dice_array_51
+  - first:
+      213: 3504019991434891318
+    second: dice_array_52
+  - first:
+      213: 2061402896641423001
+    second: dice_array_53
+  - first:
+      213: -7302070398398986496
+    second: dice_array_54
+  - first:
+      213: -4092685838854174006
+    second: dice_array_55
+  - first:
+      213: 9105478412965528969
+    second: dice_array_56
+  - first:
+      213: 3535895409811093971
+    second: dice_array_57
+  - first:
+      213: 978360616313960660
+    second: dice_array_58
+  - first:
+      213: 3789417871203508697
+    second: dice_array_59
+  - first:
+      213: 3599609467405683367
+    second: dice_array_60
+  - first:
+      213: 6000802444502579189
+    second: dice_array_61
+  - first:
+      213: 2342664278881650018
+    second: dice_array_62
+  - first:
+      213: -1165153644808990926
+    second: dice_array_63
+  - first:
+      213: 2570202588964804925
+    second: dice_array_64
+  - first:
+      213: -1538110774160321065
+    second: dice_array_65
+  - first:
+      213: 5458547708603482656
+    second: dice_array_66
+  - first:
+      213: 3403651747679219248
+    second: dice_array_67
+  - first:
+      213: -7081862507728652043
+    second: dice_array_68
+  - first:
+      213: -55202438146027767
+    second: dice_array_69
+  - first:
+      213: 7884108450961348904
+    second: dice_array_70
+  - first:
+      213: -8021275873969310016
+    second: dice_array_71
+  - first:
+      213: -3005688016567698224
+    second: dice_array_72
+  - first:
+      213: 5501046361102498245
+    second: dice_array_73
+  - first:
+      213: -1810479833346587719
+    second: dice_array_74
+  - first:
+      213: 4780811529006672571
+    second: dice_array_75
+  - first:
+      213: -4943308362584456252
+    second: dice_array_76
+  - first:
+      213: 2692847979151158082
+    second: dice_array_77
+  - first:
+      213: 7273925714370944423
+    second: dice_array_78
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: dice_array_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 768
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d1080932c80ddbf0800000000000000
+      internalID: -298072370063081000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dice_array_1
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 768
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c33830a78386f5300800000000000000
+      internalID: 243027496675803964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dice_array_2
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 768
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3337782e9c82e3a0800000000000000
+      internalID: -6637588289879067841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dice_array_3
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 768
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: abec11d257691e9b0800000000000000
+      internalID: -5052591876921504070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dice_array_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2354a50c85cbafba0800000000000000
+      internalID: -6054319659675925198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dice_array_5
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 512
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca401085678d09d00800000000000000
+      internalID: 977519121933599916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: d98454da25d33c847befa883ce6ed76d
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

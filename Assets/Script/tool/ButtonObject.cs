@@ -13,13 +13,18 @@ public abstract class ButtonObject : MonoBehaviour
 
     void Awake()
     {
+        /*
         this.eventTrigger = this.gameObject.AddComponent<EventTrigger>();
         entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.PointerDown;
+        entry.eventID = EventTriggerType.PointerClick;
         entry.callback.AddListener(data => this.PointDown());
 
         eventTrigger.triggers.Add(entry);
+        */
     }
+
+
+
 
     public abstract void PointDown();
 }
