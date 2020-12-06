@@ -19,6 +19,9 @@ public class StarController : MonoBehaviour
     [SerializeField]
     bool finishFlg = false;
 
+
+    private float autoNextTime = 0;
+
     // Use this for initialization
     void Start()
     {
@@ -62,7 +65,21 @@ public class StarController : MonoBehaviour
             total += t;
             t = 0;
         }
+
+
+        // 3秒後 自動的に カットインor終了
+        if (this.autoNextTime < 3f )
+        {
+            this.autoNextTime += Time.deltaTime;
+
+            if( this.autoNextTime>=3f )
+            {
+                SugorokuDirector.GetInstance().actionButtonObject.GetComponent<ActionButtonDirector>().StartCutInAnimation();
+            }
+        }
+
     }
+
 
     public void OnCompletionHalfRoundHandler()
     {
