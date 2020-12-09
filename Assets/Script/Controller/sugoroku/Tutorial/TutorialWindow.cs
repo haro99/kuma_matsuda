@@ -21,7 +21,11 @@ public class TutorialWindow : MonoBehaviour , ICloseButtonListener
     // Update is called once per frame
     void Update()
     {
-        
+        // どこをクリックしても閉じる
+        if( Input.GetMouseButtonDown(0) )
+        {
+            this.Close();
+        }
     }
     public void Close()
     {

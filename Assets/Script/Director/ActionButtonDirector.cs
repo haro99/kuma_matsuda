@@ -114,6 +114,19 @@ public class ActionButtonDirector : MonoBehaviour {
         }
     }
 
+
+    public void StartCutInAnimation()
+    {
+        if (this.showCardIDs.Count > this.showCardIndex)
+        {
+            if (this.cardGetStatus == CardGetStatus.None)
+            {
+                this.cutInController.Open();
+                this.cardGetStatus = CardGetStatus.CutInAnimation;
+            }
+        }
+    }
+
     public void onClick()
     {
         //Debug.Log("onClick: start");
