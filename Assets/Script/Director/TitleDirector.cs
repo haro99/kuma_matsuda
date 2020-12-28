@@ -11,8 +11,17 @@ public class TitleDirector : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if (Input.GetMouseButtonDown (0)) {
+	void Update () 
+	{
+		if (Input.GetMouseButtonDown (0)) 
+		{
+			// 左クリックしたら、効果音を鳴らす
+			if (Input.GetMouseButtonDown(0))
+			{
+				GetComponent<AudioSource>().Play();
+				// 効果音を鳴らす
+			}
+
 			SceneManager.LoadScene ("HomeScene");
 		}
 	}
