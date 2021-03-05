@@ -41,8 +41,14 @@ TextureImporter:
   - first:
       213: 21300024
     second: kuma_parts_default_12
+  - first:
+      213: -2925774916932280025
+    second: kuma_parts_default_13
+  - first:
+      213: -4641241358331869561
+    second: kuma_parts_default_14
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -62,6 +68,7 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -96,6 +103,8 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -350,7 +359,7 @@ TextureImporter:
       name: kuma_parts_default_10
       rect:
         serializedVersion: 2
-        x: 160
+        x: 289
         y: 22
         width: 192
         height: 76
@@ -405,6 +414,48 @@ TextureImporter:
       bones: []
       spriteID: a38923735af4e2f40bfc32940e1c7450
       internalID: 21300024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kuma_parts_default_13
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 15
+        width: 214
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 4, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 721e087e63f8567d0800000000000000
+      internalID: -2925774916932280025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kuma_parts_default_14
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 110
+        width: 214
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 5, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78607cf239ff69fb0800000000000000
+      internalID: -4641241358331869561
       vertices: []
       indices: 
       edges: []

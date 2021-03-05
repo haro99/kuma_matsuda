@@ -595,9 +595,11 @@ public class SugorokuDirector : MonoBehaviour
                 ClearStarData clearStar = SaveData.GetClass<ClearStarData>("clearStar", new ClearStarData());
                 clearStar.clearStageStarList[stageData.StageNo1 - 1].setClearStarNum(stageData.StageNo2, starNum);
 
+                
                 // 次の 3ステージまでクリアしていたら次のステージを追加
                 if (stageData.StageNo1 == clearStar.clearStageStarList.Count && stageData.StageNo2 == ClearStageStarData.StageNumber2Max)
                     clearStar.clearStageStarList.Add(new ClearStageStarData());
+                    
 
                 SaveData.SetClass<ClearStarData>("clearStar", clearStar);
                 SaveData.Save();
