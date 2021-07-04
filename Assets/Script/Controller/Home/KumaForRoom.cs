@@ -36,6 +36,8 @@ public class KumaForRoom : MovablObject
     public int animation_hash_bedactive { get; private set; }
     public int animation_hash_bedout { get; private set; }
 
+    public int animation_hash_glad { get; private set; }
+
     public int activeAnimationHash;
 
 
@@ -75,6 +77,7 @@ public class KumaForRoom : MovablObject
         this.animation_hash_bedactive = Animator.StringToHash("Base Layer.BedActive");
         this.animation_hash_bedout = Animator.StringToHash("Base Layer.BedOut");
 
+        this.animation_hash_glad = Animator.StringToHash("Base Layer.Glad");
 
 
         this.activeAnimationHash = 0x00;
@@ -92,6 +95,29 @@ public class KumaForRoom : MovablObject
             this.Say(SpeechData.SpeechID_None);
         }
         */
+
+        // クリックでリアクション
+        if (Input.GetMouseButtonDown(0)) {
+            Debug.Log("click.");
+ 
+            GameObject clickedGameObject = null;
+ 
+            Debug.Log(Input.mousePosition); 
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Debug.Log(ray.origin); 
+            Debug.Log(ray.direction); 
+            // 衝突するレイヤーはすべて入れる
+            int LayerObject = LayerMask.GetMask(new string[] { "Default" });
+            RaycastHit2D hit2d = Physics2D.Raycast((Vector2) ray.origin, (Vector2) ray.direction, 1, LayerObject);
+ 
+            if (hit2d) {
+                clickedGameObject = hit2d.transform.gameObject;
+                Debug.Log(clickedGameObject); 
+                if (clickedGameObject.name == "Kuma") {
+                    this.AnimationStart(this.animation_hash_glad);
+                }
+            } 
+        }
 	}
 
 

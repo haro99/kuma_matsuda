@@ -211,7 +211,7 @@ public class MapController : MonoBehaviour
                 else if (data == 5)
                 {
                     // プレハブを取得
-                    GameObject prefab = (GameObject)Resources.Load("prefabs/enemy/ball");
+                    GameObject prefab = (GameObject)Resources.Load("prefabs/enemy/enemy1");
                     // プレハブからインスタンスを生成
                     //prefab.GetComponent<SpriteRenderer>().sortingLayerName = "Enemy";
                     prefab.GetComponent<SpriteRenderer>().sortingLayerName = "MapObject";

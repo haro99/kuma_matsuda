@@ -47,6 +47,18 @@ TextureImporter:
   - first:
       213: -4641241358331869561
     second: kuma_parts_default_14
+  - first:
+      213: 3417219217301354298
+    second: kuma_parts_default_15
+  - first:
+      213: -7885628885793360308
+    second: kuma_parts_default_16
+  - first:
+      213: -112838039836151218
+    second: kuma_parts_default_17
+  - first:
+      213: -7553690984080657356
+    second: kuma_parts_default_18
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -296,7 +308,7 @@ TextureImporter:
       name: kuma_parts_default_7
       rect:
         serializedVersion: 2
-        x: 182
+        x: 97
         y: 280
         width: 146
         height: 174
@@ -448,7 +460,7 @@ TextureImporter:
         width: 214
         height: 119
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 5, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -456,6 +468,69 @@ TextureImporter:
       bones: []
       spriteID: 78607cf239ff69fb0800000000000000
       internalID: -4641241358331869561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kuma_parts_default_15
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 122
+        width: 170
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a37b2eed5c66c6f20800000000000000
+      internalID: 3417219217301354298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kuma_parts_default_16
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 205
+        width: 170
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c463ab7ee4e909290800000000000000
+      internalID: -7885628885793360308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kuma_parts_default_17
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 288
+        width: 165
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e423a6e866e1f6ef0800000000000000
+      internalID: -112838039836151218
       vertices: []
       indices: 
       edges: []
