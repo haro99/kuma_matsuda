@@ -11,7 +11,7 @@ public class RoomEntrance : Room
         Wait,
         WalkToLeft,
         WalkToRight,
-
+        happy,
         WalkToRandom ,
         Finish
     }
@@ -26,7 +26,7 @@ public class RoomEntrance : Room
 
     private int roomIdNext;
 
-    private float randomMoveTargetX;
+    private float randomMoveTargetX, interval;
 
 
     public RoomEntrance()
@@ -116,7 +116,7 @@ public class RoomEntrance : Room
 
         this.statusTime.Update();
         this.sayDelayTime.Update();
-
+        //Debug.Log(this.status);
         switch (this.status)
         {
             case Status.InFromLeft:
@@ -242,6 +242,15 @@ public class RoomEntrance : Room
                     this.StatusChange(Status.Wait);
                 }
                 break;
+
+            case Status.happy:
+                interval += Time.deltaTime;
+                if (interval > 1.5f)
+                {
+                    this.StatusChange(Status.Wait);
+                    interval = 0f;
+                }
+                break;
         }
 
     }
@@ -346,4 +355,11 @@ public class RoomEntrance : Room
         commandListener.Message(message);
         return;
     }
+
+    public override void StopStatus()
+    {
+        this.status = Status.happy;
+
+    }
+    
 }

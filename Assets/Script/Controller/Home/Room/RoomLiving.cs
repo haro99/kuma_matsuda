@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ルームとクマの管理
+/// </summary>
 public class RoomLiving : Room
 {
     public enum Status
@@ -22,7 +25,6 @@ public class RoomLiving : Room
     private LimitTimeCounter sayDelayTime;
 
     private int roomIdNext;
-
 
     public RoomLiving()
     {
@@ -109,15 +111,14 @@ public class RoomLiving : Room
     private void StatusUpdate()
     {
         this.statusTime.Update();
+        Debug.Log(this.status);
 
         this.sayDelayTime.Update();
-
-
+        Debug.Log("通ったよ");
         switch (this.status)
         {
             case Status.In:
                 this.kuma.Move(0f, Room.LineY_Kuma_ActiveLine, 1f);
-
                 break;
             case Status.Wait:
 
@@ -221,6 +222,7 @@ public class RoomLiving : Room
                     this.StatusChange(Status.Finish);
                 }
                 break;
+
         }
 
     }
@@ -332,4 +334,8 @@ public class RoomLiving : Room
         return;
     }
 
+    public override void StopStatus()
+    {
+
+    }
 }

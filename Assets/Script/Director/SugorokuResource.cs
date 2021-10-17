@@ -47,7 +47,7 @@ public class SugorokuResource
     public AudioClip AudioSpecialDiceFreeCount { get; private set; }
     public AudioClip AudioSpecialDiceFreeCountLast5 { get; private set; }
 
-    public AudioClip AudioBGM { get; private set; }
+    //public AudioClip AudioBGM { get; private set; }
 
     public AudioClip AudioItemGet { get; private set; }
 
@@ -78,7 +78,7 @@ public class SugorokuResource
         this.AudioSpecialDiceFreeCountLast5 = Resources.Load("sound/special_dice_free_count_last5", typeof(AudioClip)) as AudioClip;
 
 
-        this.AudioBGM = Resources.Load("sound/bgm_stage", typeof(AudioClip)) as AudioClip;
+        //this.AudioBGM = Resources.Load("sound/bgm_stage", typeof(AudioClip)) as AudioClip;
 
         this.AudioItemGet = Resources.Load("sound/item_get", typeof(AudioClip)) as AudioClip;
 

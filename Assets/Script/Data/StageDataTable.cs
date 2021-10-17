@@ -47,6 +47,7 @@ public class StageDataTable : ScriptableObject
     public int RandomMapSpecailCount;
     public int RandomMapRandomItemCount;
 
+    public int BGMnumber;
 
     // 分岐密度 ( 0～8 ) この数値が多いほど ランダムマップ作成時の分岐数が多くなります。
     // 具体的には ランダムマップは マップを広げるために マップの隅８か所を 徐々に広げていきますが、

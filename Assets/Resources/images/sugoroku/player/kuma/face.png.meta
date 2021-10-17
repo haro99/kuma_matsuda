@@ -291,7 +291,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1024
+        y: 1027
         width: 512
         height: 512
       alignment: 0
@@ -366,6 +366,27 @@ TextureImporter:
       bones: []
       spriteID: 61377330da52770d0800000000000000
       internalID: -3425227566578437354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: face_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 511
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80df8ba2576e5ba40800000000000000
+      internalID: 5383462320493624584
       vertices: []
       indices: 
       edges: []

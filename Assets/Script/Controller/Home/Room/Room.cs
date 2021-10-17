@@ -62,4 +62,6 @@ public abstract class Room : IDebugCommandRecver
         foreach (GameObject obj in this.roomObject)
             GameObject.Destroy(obj);
     }
+
+    public abstract void StopStatus();
 }

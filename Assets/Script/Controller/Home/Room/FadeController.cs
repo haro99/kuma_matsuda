@@ -30,7 +30,7 @@ public class FadeController : MonoBehaviour
         this.statusTime = new LimitTimeCounter();
 
         this.SetStatus(Status.BlackOut);
-
+        Debug.Log(status);
     }
 	
 	// Update is called once per frame
