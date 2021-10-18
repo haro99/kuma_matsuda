@@ -48,7 +48,7 @@ public class MovablObject : MonoBehaviour
         float h = this.Y - targetY;
         float a = Mathf.Atan2(h, w) + Mathf.PI;
 
-
+        //Debug.Log("動きました");
         this.SetPosition(this.X + Mathf.Cos(a) * moveDistance * Time.deltaTime, this.Y + Mathf.Sin(a) * moveDistance * Time.deltaTime);
     }
 

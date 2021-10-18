@@ -15,11 +15,15 @@ public class PlayerController : CharaController
     [SerializeField]
     private bool reserveJump = false;
 
+    [SerializeField]
+    private GameObject MessageImage;
+    public bool touch;
     private void Start()
     {
         this.Init();
 
         this.animationNow = Const.Animation.StandTrigger;
+
     }
 
     public new void Init()
@@ -164,10 +168,31 @@ public class PlayerController : CharaController
 
     protected override void OrderUpdate()
     {
+
         SpriteRenderer renderChara = this.gameObject.transform.Find("Chara").GetComponent<SpriteRenderer>();
         renderChara.sortingOrder = SugorokuDirector.GetInstance().MapController.GetOrderInLayerForTile(this.posX, this.posY, MapController.MapObjectOrderIndex.Player);
 
         SpriteRenderer renderShadow = this.gameObject.transform.Find("shadow").GetComponent<SpriteRenderer>();
         renderShadow.sortingOrder = SugorokuDirector.GetInstance().MapController.GetOrderInLayerForTile(this.posX, this.posY, MapController.MapObjectOrderIndex.Shadow);
+    }
+
+    public void Touch()
+    {
+        if (!touch)
+        {
+            StartCoroutine(MessageOut());
+            touch = true;
+        }
+    }
+    /// <summary>
+    /// すごろくスタート時のメッセージ
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator MessageOut()
+    {
+        yield return new WaitForSeconds(0.5f);
+        MessageImage.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        MessageImage.SetActive(false);
     }
 }

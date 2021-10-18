@@ -150,11 +150,13 @@ public class HomeDirector : MonoBehaviour , IDebugCommandRecver
     // Update is called once per frame
     void Update()
     {
-        if( this.room != null )
+        //Debug.Log(this.room);
+
+        if (this.room != null)
             this.room.RoomUpdate();
 
 
-        if( this.roomStatus == RoomStatus.Moving && this.fade.IsBlackOut )
+        if ( this.roomStatus == RoomStatus.Moving && this.fade.IsBlackOut )
         {
             this.roomStatus = RoomStatus.Active;
             this.CreateRoom();
@@ -170,6 +172,7 @@ public class HomeDirector : MonoBehaviour , IDebugCommandRecver
                 this.OpenPlayConfirmMenu();
             }
         }
+
     }
 
 
@@ -931,4 +934,16 @@ public class HomeDirector : MonoBehaviour , IDebugCommandRecver
         this.soundData.PlaySound(this.audioSourceSelect);
     }
 
+    public void Touch()
+    {
+        this.room.StopStatus();
+    }
+
+    public bool RoomCheck()
+    {
+        if (this.RoomID_Now == RoomData.RoomID_Entrance)
+            return true;
+
+        return false;
+    }
 }

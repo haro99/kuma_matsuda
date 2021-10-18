@@ -30,6 +30,16 @@ public class SugorokuDirector : MonoBehaviour
     public GameObject player;
     public GameObject enemy;
 
+    //今回の追加
+    public GameObject View;
+    public PlayerController playerController;
+    public ItemCountUiPrinter[] ItemCountUiPrinters;
+    public Animator Playeranimator, Cameraanimaotr, Cutnumberanimator, Cutnumber99animator;
+    public Image cutNumbersprite;
+    public Sprite[] pinknumbers;
+    public AudioClip[] StageBGMs;
+    public int startx, starty;
+
     //-------------------- UIまわり ------------------
     //int limitValue; // 実際に動ける残りの数
     public GameObject allows;  // →
@@ -61,7 +71,7 @@ public class SugorokuDirector : MonoBehaviour
         private set;
     }
     
-
+    //サウンド全般
     public SugorokuResource Resource { get; private set; }
     private SoundData soundData;
     private AudioSource audioSourceSaiStart;
@@ -144,6 +154,10 @@ public class SugorokuDirector : MonoBehaviour
         StartCoroutine(Manager());
 
         //playerCreate();
+
+        View.transform.position = player.transform.position;
+        startx = playerController.posX;
+        starty = playerController.posY;
     }
 
     //==========================================================================
@@ -188,10 +202,11 @@ public class SugorokuDirector : MonoBehaviour
         this.audioSourceGameOver.clip = this.Resource.AudioGameOver;
 
         this.audioSourceBGM = this.gameObject.AddComponent<AudioSource>();
-        this.audioSourceBGM.clip = this.Resource.AudioBGM;
-        this.audioSourceBGM.loop = true;
 
-        this.soundData.PlayBGM(this.audioSourceBGM);
+        //this.audioSourceBGM.clip = this.Resource.AudioBGM;
+
+        //BGMはStageDateの後ろで設定
+
 
         this.specialSelecter = this.specialFrame.GetComponent<SpecialSelecter>();
 
@@ -221,6 +236,13 @@ public class SugorokuDirector : MonoBehaviour
         else
             this.ChangeGameStatus(Const.GameStatus.wait);
 
+        //BGM設定
+        this.audioSourceBGM.clip = StageBGMs[stageData.BGMnumber];
+
+        this.audioSourceBGM.loop = true;
+
+        this.soundData.PlayBGM(this.audioSourceBGM);
+
     }
 
     public void ClosedTutorial()
@@ -246,6 +268,9 @@ public class SugorokuDirector : MonoBehaviour
             //yield return new WaitForSeconds(0.25f);
             yield return new WaitForSeconds(this.DevelopersOption.PlayerMoveStepWait);
             yield return this.CharaMove(player);
+
+            //foreach (Transform child in enemy.transform)
+            //    Debug.Log(Vector2.Distance(player.transform.position, child.transform.position));
         }
 
         // enemyターン
@@ -268,6 +293,7 @@ public class SugorokuDirector : MonoBehaviour
                     //yield return new WaitForSeconds(0.25f);
                     yield return new WaitForSeconds(this.DevelopersOption.EnemyMoveStepWait);
                     yield return this.CharaMove(child.gameObject);
+                    //Debug.Log(Vector2.Distance(player.transform.position, child.transform.position));
                 }
 
                 // 移動終了待ち
@@ -275,6 +301,7 @@ public class SugorokuDirector : MonoBehaviour
 
             }
         }
+
 
         if (!isFinish())
         {
@@ -309,6 +336,8 @@ public class SugorokuDirector : MonoBehaviour
     {
         //Debug.Log("Update: start");
 
+
+
         if( !this.specialDiceFreeTime.IsFinished )
         {
             if( this.gameStatus == Const.GameStatus.diceWait || this.gameStatus == Const.GameStatus.waitDiceClick || this.gameStatus == Const.GameStatus.playerMove || this.gameStatus == Const.GameStatus.userWaySelect )
@@ -323,10 +352,39 @@ public class SugorokuDirector : MonoBehaviour
             }
         }
 
+        if (this.gameStatus == Const.GameStatus.waitDiceClick)
+        {
+            Debug.Log("スクロール");
+            mainCamera.GetComponent<MainCameraController>().setCharaObject(View);
+            if (Input.GetMouseButton(0))
+            {
+                float mouse_x_delta = Input.GetAxis("Mouse X");
+                float mouse_y_delta = Input.GetAxis("Mouse Y");
+                View.transform.position += new Vector3(-mouse_x_delta, -mouse_y_delta);
+                //Debug.Log(mouse_x_delta + " " + mouse_y_delta);
+
+                //範囲制限
+                Vector3 nowPos = View.transform.position;
+                if (nowPos.x > 10)
+                    nowPos.x = 10;
+                if (nowPos.x < -10)
+                    nowPos.x = -10;
+
+                if (nowPos.y > 10)
+                    nowPos.y = 10;
+                if (nowPos.y < -10)
+                    nowPos.y = -10;
+
+                View.transform.position = nowPos;
+            }
+        }
+        else
+        {
+            View.transform.position = player.transform.position;
+        }
 
 
-
-        if( !this.specialEffectTime.IsFinished )
+        if ( !this.specialEffectTime.IsFinished )
         {
             this.specialEffectTime.Update();
 
@@ -360,6 +418,8 @@ public class SugorokuDirector : MonoBehaviour
             }
 
         }
+
+
     }
 
 
@@ -740,8 +800,9 @@ public class SugorokuDirector : MonoBehaviour
             allows.GetComponent<ArrowController>().SetDir(nextDirList);
             ChangeGameStatus(Const.GameStatus.userWaySelect);
         }
-    }
 
+    }
+    //移動処理
     private void CharaMoveNow(GameObject charaObject, Vector2 nextPos)
     {
         //Debug.Log("CharaMoveNow : " + charaObject.name);
@@ -758,27 +819,56 @@ public class SugorokuDirector : MonoBehaviour
                 remainingAmountController.decreaseDiceCount();
 
             charaController.MoveChara(gameObject, nextPos);
-
+            Debug.Log("プレイヤー");
             //
             //aaa
+            //プレイヤーからの衝突
+            foreach (Transform child in enemy.transform)
+            {
+                EnemyController enemyController = child.GetComponent<EnemyController>();
 
+                if (playerController.posX == enemyController.posX && playerController.posY == enemyController.posY)
+                {
+                    Debug.Log("接触したよ");
+                    Playeranimator.SetTrigger("Damage");
+                    Cameraanimaotr.SetTrigger("Shock");
+                    int number = EnemyCheck(enemyController);
+                    Debug.Log(number);
+                    StartCoroutine(CutnumberMessage(number));
+                    RandomCut(number);
+                }
+            }
         }
         else
         {
             charaController.MoveChara(gameObject, nextPos);
-
+            Debug.Log(charaObject.name);
             //
             //aaa
-
+            EnemyController enemyController = charaObject.GetComponent<EnemyController>();
+            if (playerController.posX == enemyController.posX && playerController.posY == enemyController.posY)
+            {
+                Debug.Log("敵が接触したよ");
+                //ItemCountUiPrinters[Random.Range(0, 4)].RemveHaveCount(4);
+                EnemyCheck(enemyController);
+                Playeranimator.SetTrigger("Damage");
+                Cameraanimaotr.SetTrigger("Shock");
+                int number = EnemyCheck(enemyController);
+                Debug.Log(number);
+                StartCoroutine(CutnumberMessage(number));
+                RandomCut(number);
+            }
         }
 
     }
 
     void PlayerMoved()
     {
-        //Debug.Log("PlayerMoved: start.");
+        Debug.Log("PlayerMoved: start.");
 
         CharaController charaController = player.GetComponent<CharaController>();
+
+        //Debug.Log(playerController.posX + "," + playerController.posY);
 
         //int posX = playerController.posX;
         //int posY = playerController.posY;
@@ -796,9 +886,22 @@ public class SugorokuDirector : MonoBehaviour
             remainingAmountController.clearDisp();
         }
 
-        // 現在のマスがゴールでゴール条件をクリアしているか
-        //Debug.Log("masu[" + posX + "," + posY + "] : " + GetMasu(posX, posY));
-        if (GetMasu(charaController.posX, charaController.posY) == -1)
+        //プレイヤーからの衝突
+        //foreach (Transform child in enemy.transform)
+        //{
+        //    EnemyController enemyController = child.GetComponent<EnemyController>();
+
+        //    if (playerController.posX == enemyController.posX && playerController.posY == enemyController.posY)
+        //    {
+        //        Debug.Log("接触したよ");
+        //        ItemCountUiPrinters[Random.Range(0, 4)].RemveHaveCount();
+        //    }
+        //}
+
+
+            // 現在のマスがゴールでゴール条件をクリアしているか
+            //Debug.Log("masu[" + posX + "," + posY + "] : " + GetMasu(posX, posY));
+            if (GetMasu(charaController.posX, charaController.posY) == -1)
         {
             if (this.IsStageClear())
             {
@@ -1156,4 +1259,72 @@ public class SugorokuDirector : MonoBehaviour
         this.DebugText.text += text + "\n";
     }
 
+    /// <summary>
+    /// 敵の判別処理
+    /// </summary>
+    /// <param name="enemyController"></param>
+    private int EnemyCheck(EnemyController enemyController)
+    {
+        int foodnumber = Random.Range(0, 4), cutnumber;
+
+        switch (enemyController.gameObject.tag)
+        {
+            case "enemy1":
+                cutnumber = 1;
+                break;
+
+            case "enemy2":
+                cutnumber = Random.Range(1, 2);
+                break;
+
+            case "enemy3":
+                cutnumber = Random.Range(1, 3);
+                break;
+
+            case "enemy4":
+                cutnumber = Random.Range(1, 4);
+                break;
+
+            case "enemy5":
+                cutnumber = Random.Range(1, 5);
+                break;
+
+            case "enemy6":
+                cutnumber = Random.Range(1, 6);
+                break;
+
+            case "enemy7":
+                cutnumber = Random.Range(1, 7);
+                break;
+
+            default:
+                cutnumber = 99;
+                break;
+        }
+
+        return cutnumber;
+    }
+
+    IEnumerator CutnumberMessage(int cutnumber)
+    {
+        if (cutnumber < 10)
+        {
+            cutNumbersprite.sprite = pinknumbers[cutnumber];
+            Cutnumberanimator.SetTrigger("Active");
+            yield return new WaitForSeconds(2);
+        }
+        else
+        {
+            Cutnumber99animator.SetTrigger("Active");
+            yield return new WaitForSeconds(2);
+        }
+    }
+    private void RandomCut(int cutnumber)
+    {
+        while(0<cutnumber)
+        {
+            ItemCountUiPrinters[Random.Range(0, 4)].RemveHaveCount(1);
+            cutnumber--;
+        }
+    }
 }

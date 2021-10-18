@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 取ったフードの数管理
+/// </summary>
 public class ItemCountUiPrinter : MonoBehaviour
 {
 
@@ -23,6 +26,9 @@ public class ItemCountUiPrinter : MonoBehaviour
     private ItemIconEffecter icon;
 
     private int needCount;
+
+    public Animator CutAnimator;
+    public Image Cutnumber;
 
     // Start is called before the first frame update
     void Start()
@@ -67,7 +73,7 @@ public class ItemCountUiPrinter : MonoBehaviour
     public void AddHaveCount()
     {
         this.haveCount++;
-
+        //Debug.Log(haveCount);
         this.SetItemCount(this.haveCounter, "images/text/number/white/", haveCount , false);
         this.icon.Pop();
 
@@ -153,4 +159,31 @@ public class ItemCountUiPrinter : MonoBehaviour
         return this.flyTarget.position;
         
     }
+
+    public void RemveHaveCount(int cutnumber)
+    {
+        this.haveCount -= cutnumber;
+
+        this.CutItemCount(this.haveCounter, "images/text/number/white/", haveCount, false);
+
+    }
+
+    private void CutItemCount(GameObject counter, string numberResoucePath, int count, bool isAlignLeft)
+    {
+        if (count < 0)
+            count = 0;
+
+        Image digit2 = counter.transform.Find("Digit2").gameObject.GetComponent<Image>();
+        Image digit1 = counter.transform.Find("Digit1").gameObject.GetComponent<Image>();
+
+        digit2.sprite = Resources.Load(numberResoucePath + count / 10, typeof(Sprite)) as Sprite;
+        digit1.sprite = Resources.Load(numberResoucePath + count % 10, typeof(Sprite)) as Sprite;
+
+        bool isClear = (this.haveCount >= this.needCount);
+
+        this.digitEffect1.Pop(isClear);
+        this.digitEffect2.Pop(isClear);
+
+    }
+
 }

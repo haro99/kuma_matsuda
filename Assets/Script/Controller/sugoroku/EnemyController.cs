@@ -45,7 +45,7 @@ public class EnemyController : CharaController
 
     private void Walk(GameObject DirectorObject, Vector2 nextPos)
     {
-        //Debug.Log("Walk.");
+        Debug.Log("Walk.");
         iTween.MoveTo(gameObject, iTween.Hash("x", nextPos.x, "y", nextPos.y, "delay", 0, "time", 0.2f, "oncomplete", "EnemyMoved", "oncompletetarget", gameObject));
         //this.OrderUpdate();
         this.isOrderUpdateRequest = true;

@@ -29,7 +29,6 @@ public class RoomBedroom : Room
 
 
 
-
     public RoomBedroom()
     {
         this.roomIdNext = RoomData.RoomID_None;
@@ -203,7 +202,6 @@ public class RoomBedroom : Room
                 }
                 break;
 
-
         }
 
     }
@@ -323,5 +321,8 @@ public class RoomBedroom : Room
         commandListener.Message(message);
         return;
     }
+    public override void StopStatus()
+    {
 
+    }
 }

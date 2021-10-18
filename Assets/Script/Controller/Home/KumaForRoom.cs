@@ -25,6 +25,7 @@ public class KumaForRoom : MovablObject
 
     private TalkBalloon talkBalloon;
 
+    public Sprite HelloSprite;
     public int animation_hash_stand { get; private set; }
     public int animation_hash_walk { get; private set; }
 
@@ -37,6 +38,10 @@ public class KumaForRoom : MovablObject
     public int animation_hash_bedout { get; private set; }
 
     public int animation_hash_glad { get; private set; }
+
+    public int animation_hash_jump { get; private set; }
+
+    public int animation_hash_shy { get; private set; }
 
     public int activeAnimationHash;
 
@@ -79,6 +84,9 @@ public class KumaForRoom : MovablObject
 
         this.animation_hash_glad = Animator.StringToHash("Base Layer.Glad");
 
+        this.animation_hash_jump = Animator.StringToHash("Base Layer.jump");
+        this.animation_hash_shy = Animator.StringToHash("Base Layer.shy");
+
 
         this.activeAnimationHash = 0x00;
         this.AnimationStart(this.animation_hash_stand);
@@ -96,29 +104,50 @@ public class KumaForRoom : MovablObject
         }
         */
 
-        // クリックでリアクション
-        if (Input.GetMouseButtonDown(0)) {
-            Debug.Log("click.");
- 
-            GameObject clickedGameObject = null;
- 
-            Debug.Log(Input.mousePosition); 
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Debug.Log(ray.origin); 
-            Debug.Log(ray.direction); 
-            // 衝突するレイヤーはすべて入れる
-            int LayerObject = LayerMask.GetMask(new string[] { "Default" });
-            RaycastHit2D hit2d = Physics2D.Raycast((Vector2) ray.origin, (Vector2) ray.direction, 1, LayerObject);
- 
-            if (hit2d) {
-                clickedGameObject = hit2d.transform.gameObject;
-                Debug.Log(clickedGameObject); 
-                if (clickedGameObject.name == "Kuma") {
-                    this.AnimationStart(this.animation_hash_glad);
-                }
-            } 
-        }
-	}
+        // OnMouseDownに移動
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    Debug.Log("click.");
+
+        //    GameObject clickedGameObject = null;
+
+        //    Debug.Log(Input.mousePosition);
+        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //    Debug.Log(ray.origin);
+        //    Debug.Log(ray.direction);
+        //    // 衝突するレイヤーはすべて入れる
+        //    int LayerObject = LayerMask.GetMask(new string[] { "Default" });
+        //    RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, 1, LayerObject);
+
+        //    if (hit2d)
+        //    {
+        //        clickedGameObject = hit2d.transform.gameObject;
+        //        Debug.Log(clickedGameObject);
+        //        if (clickedGameObject.name == "Kuma")
+        //        {
+        //            if (director.RoomCheck())
+        //            {
+        //                int number = Random.Range(0, 3);
+        //                switch (number)
+        //                {
+        //                    case 0:
+        //                        this.AnimationStart(this.animation_hash_glad);
+        //                        break;
+
+        //                    case 1:
+        //                        this.AnimationStart(this.animation_hash_jump);
+        //                        break;
+
+        //                    case 2:
+        //                        this.AnimationStart(this.animation_hash_shy);
+        //                        break;
+        //                }
+        //                director.Touch();
+        //            }
+        //        }
+        //    }
+        //}
+    }
 
 
     public void Say( int speechID )
@@ -226,6 +255,28 @@ public class KumaForRoom : MovablObject
                 return TurnType.Right;
         }
     }
+    void OnMouseDown()
+    {
+        //エントランスチェック
+        if (director.RoomCheck())
+        {
+            int number = Random.Range(0, 3);
+            //アクションをランダム
+            switch (number)
+            {
+                case 0:
+                    this.AnimationStart(this.animation_hash_glad);
+                    break;
 
+                case 1:
+                    this.AnimationStart(this.animation_hash_jump);
+                    break;
 
+                case 2:
+                    this.AnimationStart(this.animation_hash_shy);
+                    break;
+            }
+            director.Touch();
+        }
+    }
 }

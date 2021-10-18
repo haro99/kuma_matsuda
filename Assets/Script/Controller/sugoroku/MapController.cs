@@ -35,6 +35,7 @@ public class MapController : MonoBehaviour
 
     private SugorokuDirector director;
 
+    private int enemynumber;
 
     // Use this for initialization
     void Start()
@@ -42,6 +43,8 @@ public class MapController : MonoBehaviour
         this.init();
 
         StopwatchTimer timer = new StopwatchTimer();
+
+        enemynumber = 1;
 
         timer.Start();
         createMap();
@@ -210,8 +213,8 @@ public class MapController : MonoBehaviour
 
                 else if (data == 5)
                 {
-                    // プレハブを取得
-                    GameObject prefab = (GameObject)Resources.Load("prefabs/enemy/enemy1");
+                    // プレハブを取得、エネミーを生成
+                    GameObject prefab = (GameObject)Resources.Load("prefabs/enemy/enemy" + enemynumber);
                     // プレハブからインスタンスを生成
                     //prefab.GetComponent<SpriteRenderer>().sortingLayerName = "Enemy";
                     prefab.GetComponent<SpriteRenderer>().sortingLayerName = "MapObject";
@@ -228,6 +231,8 @@ public class MapController : MonoBehaviour
                     // tile
                     this.createTile(x, y, 9); // 9=gray
                     //Debug.Log("X:" + x + " Y:" + y);
+                    if(enemynumber<8)
+                        enemynumber++;
                 }
                 else if (data == -2)
                 {
