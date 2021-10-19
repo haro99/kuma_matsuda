@@ -6540,7 +6540,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 190
   m_TargetDisplay: 0
 --- !u!224 &1163745911
 RectTransform:
@@ -8729,7 +8729,7 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1414915584}
-  m_CullTransparentMesh: 0
+  m_CullTransparentMesh: 1
 --- !u!1 &1422819759
 GameObject:
   m_ObjectHideFlags: 0
@@ -11527,7 +11527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4142320909376246, guid: 55add94388ad7744daf823e9211d2bbc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.11999998
+      value: -0.119999975
       objectReference: {fileID: 0}
     - target: {fileID: 4142320909376246, guid: 55add94388ad7744daf823e9211d2bbc, type: 3}
       propertyPath: m_LocalPosition.y
