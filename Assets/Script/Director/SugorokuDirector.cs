@@ -37,7 +37,7 @@ public class SugorokuDirector : MonoBehaviour
     public Animator Playeranimator, Cameraanimaotr, Cutnumberanimator, Cutnumber99animator;
     public Image cutNumbersprite;
     public Sprite[] pinknumbers;
-    public AudioClip[] StageBGMs;
+    //public AudioClip[] StageBGMs;
     public int startx, starty;
 
     //-------------------- UIまわり ------------------
@@ -237,7 +237,7 @@ public class SugorokuDirector : MonoBehaviour
             this.ChangeGameStatus(Const.GameStatus.wait);
 
         //BGM設定
-        this.audioSourceBGM.clip = StageBGMs[stageData.BGMnumber];
+        this.audioSourceBGM.clip = stageData.BGMclip;
 
         this.audioSourceBGM.loop = true;
 

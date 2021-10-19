@@ -213,6 +213,8 @@ public class MapController : MonoBehaviour
 
                 else if (data == 5)
                 {
+                    Debug.Log("敵生成");
+                    Debug.Log(data);
                     // プレハブを取得、エネミーを生成
                     GameObject prefab = (GameObject)Resources.Load("prefabs/enemy/enemy" + enemynumber);
                     // プレハブからインスタンスを生成
