@@ -40,11 +40,11 @@ MonoBehaviour:
   RandomMapClearRouteTileCountMin: 40
   RandomMapClearRouteDistanceMax: 100
   RandomMapItemCountMaxInTile: 1
-  RandomMapEnemyCount: 0
+  RandomMapEnemyCount: 3
   RandomMapSpecailCount: 3
   RandomMapRandomItemCount: 3
   BGMclip: {fileID: 0}
-  setenemynumber: 1
+  setenemynumber: 2
   RandomMapBranchDensity: 2
   RandomMapStraightDistanceMin: 3
   RandomMapStraightDistanceMax: 6

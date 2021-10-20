@@ -7,10 +7,15 @@ public class SceneLoader
 {
     static Dictionary<string, object> sceneArgsDic = new Dictionary<string, object>();
 
+    public static int stageNo1, stageNo2;
+
     static public void LoadScene(string sceneName, LoadSceneMode mode, object args)
     {
         // 読み込むシーンと引数をキャッシュ
         sceneArgsDic.Add(sceneName, args);
+        SugorokuSceneArgs obj = (SugorokuSceneArgs)args;
+        stageNo1 = obj.StageNo1;
+        stageNo2 = obj.StageNo2;
 
         // シーン読み込み, イベント追加
         SceneManager.LoadScene(sceneName, mode);
@@ -19,7 +24,7 @@ public class SceneLoader
 
     static void OnLoadedScene(Scene scene, LoadSceneMode loadSceneMode)
     {
-        //Debug.Log("scene:" + scene.name);
+        Debug.Log("scene:" + scene.name);
         if (!sceneArgsDic.ContainsKey(scene.name))
         {
             return;

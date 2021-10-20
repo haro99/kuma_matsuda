@@ -43,14 +43,14 @@ MonoBehaviour:
   BackgroundPrefab: {fileID: 8764534759607358639, guid: 18d948299b1181e4b91412100818ed20,
     type: 3}
   DiceCount: 20
-  RandomMapClearRouteTileCountMin: 40
-  RandomMapClearRouteDistanceMax: 70
-  RandomMapItemCountMaxInTile: 1
-  RandomMapEnemyCount: 0
+  RandomMapClearRouteTileCountMin: 20
+  RandomMapClearRouteDistanceMax: 50
+  RandomMapItemCountMaxInTile: 3
+  RandomMapEnemyCount: 1
   RandomMapSpecailCount: 3
-  RandomMapRandomItemCount: 3
+  RandomMapRandomItemCount: 1
   BGMclip: {fileID: 8300000, guid: 4544b4534ca3a434c972235dffe748fc, type: 3}
-  setenemynumber: 1
+  setenemynumber: 5
   RandomMapBranchDensity: 2
   RandomMapStraightDistanceMin: 3
   RandomMapStraightDistanceMax: 6

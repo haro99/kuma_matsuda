@@ -44,7 +44,7 @@ public class MapController : MonoBehaviour
 
         StopwatchTimer timer = new StopwatchTimer();
 
-        enemynumber = 1;
+        //enemynumber = 1;
 
         timer.Start();
         createMap();
@@ -143,6 +143,7 @@ public class MapController : MonoBehaviour
             this.director.AddDebugText("ランダムマップ作製 失敗 Retry " + tryCount );
         }
         enemynumber = stageData.setenemynumber;
+        Debug.Log("エネミーの番号" + enemynumber);
     }
 
     private void createMap()
