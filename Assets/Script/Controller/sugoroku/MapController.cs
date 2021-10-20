@@ -142,7 +142,7 @@ public class MapController : MonoBehaviour
         {
             this.director.AddDebugText("ランダムマップ作製 失敗 Retry " + tryCount );
         }
-
+        enemynumber = stageData.setenemynumber;
     }
 
     private void createMap()
@@ -233,8 +233,8 @@ public class MapController : MonoBehaviour
                     // tile
                     this.createTile(x, y, 9); // 9=gray
                     //Debug.Log("X:" + x + " Y:" + y);
-                    if(enemynumber<8)
-                        enemynumber++;
+                    //if(enemynumber<8)
+                    //    enemynumber++;
                 }
                 else if (data == -2)
                 {

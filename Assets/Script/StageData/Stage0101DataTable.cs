@@ -30,7 +30,7 @@ public class Stage0101DataTable : StageDataTable
             new FieldDataX(new List<int>(){ 0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  8,113,100,113,  8,  1,  0,  0,  0}),
             new FieldDataX(new List<int>(){ 0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  8,113,113,113,  8,  1,  0,  0,  0}),
             new FieldDataX(new List<int>(){ 0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  8,  8,  8,  8,  8,  1,  0,  0,  0}),
-            new FieldDataX(new List<int>(){ 0,  0,  0,  1,  1,  1,  1,  1,  1, -1,  1,  1,  1,  1,  1,  1,  0,  0,  0}),
+            new FieldDataX(new List<int>(){ 0,  0,  0,  1,  1,  1,  1,  1,  1, -1,  1,  1,  1,  1,  1,  5,  0,  0,  0}),
             new FieldDataX(new List<int>(){ 0,  0,  0,  1,  8,  8,  8,  8,  8,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0}),
             new FieldDataX(new List<int>(){ 0,  0,  0,  1,  8,113,113,113,  8,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0}),
             new FieldDataX(new List<int>(){ 0,  0,  0,  1,  8,113,113,113,  8,  1,  0,113,  0,  0,  0,  0,  0,  0,  0}),
