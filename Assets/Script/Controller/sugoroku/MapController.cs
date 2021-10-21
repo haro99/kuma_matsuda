@@ -212,12 +212,13 @@ public class MapController : MonoBehaviour
                     tileData.SetMapIndex(x,y,this.getMapData(x,y));
                 }
 
-                else if (data == 5)
+                else if (data>200 && data<209)
                 {
+                    int number = data - 200;
                     Debug.Log("敵生成");
-                    Debug.Log(data);
+                    Debug.Log(number);
                     // プレハブを取得、エネミーを生成
-                    GameObject prefab = (GameObject)Resources.Load("prefabs/enemy/enemy" + enemynumber);
+                    GameObject prefab = (GameObject)Resources.Load("prefabs/enemy/enemy" + number);
                     // プレハブからインスタンスを生成
                     //prefab.GetComponent<SpriteRenderer>().sortingLayerName = "Enemy";
                     prefab.GetComponent<SpriteRenderer>().sortingLayerName = "MapObject";
