@@ -35,7 +35,6 @@ public class MapController : MonoBehaviour
 
     private SugorokuDirector director;
 
-    private int enemynumber;
 
     // Use this for initialization
     void Start()
@@ -142,8 +141,6 @@ public class MapController : MonoBehaviour
         {
             this.director.AddDebugText("ランダムマップ作製 失敗 Retry " + tryCount );
         }
-        enemynumber = stageData.setenemynumber;
-        Debug.Log("エネミーの番号" + enemynumber);
     }
 
     private void createMap()
